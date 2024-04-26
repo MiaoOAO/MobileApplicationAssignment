@@ -11,5 +11,6 @@ class MainActivity : AppCompatActivity() {
         //testing
         //lol
         //XinYi test test test
+        //Hi my name is wong chen yong
     }
 }
