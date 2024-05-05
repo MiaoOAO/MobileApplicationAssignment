@@ -1,13 +1,14 @@
 {
   "project_info": {
-    "project_number": "223179581595",
-    "project_id": "campus-marketplace-7072c",
-    "storage_bucket": "campus-marketplace-7072c.appspot.com"
+    "project_number": "882911063028",
+    "firebase_url": "https://campus-marketplace-8cc1c-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "campus-marketplace-8cc1c",
+    "storage_bucket": "campus-marketplace-8cc1c.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:223179581595:android:4843147f173b5436e6be3e",
+        "mobilesdk_app_id": "1:882911063028:android:d5aeec420838880334a7a1",
         "android_client_info": {
           "package_name": "com.example.mobileapplicationassignment"
         }
@@ -15,7 +16,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyANLyAmLU0OdPdeqYWUYzwzoSRCKbqsI0g"
+          "current_key": "AIzaSyDu4-TmOmkizSuOaNDmpa34holQp7Xb3hU"
         }
       ],
       "services": {

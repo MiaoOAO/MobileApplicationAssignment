@@ -9,9 +9,9 @@
               <option name="connection">
                 <ConnectionSetting>
                   <option name="appId" value="com.example.mobileapplicationassignment" />
-                  <option name="mobileSdkAppId" value="1:223179581595:android:4843147f173b5436e6be3e" />
-                  <option name="projectId" value="campus-marketplace-7072c" />
-                  <option name="projectNumber" value="223179581595" />
+                  <option name="mobileSdkAppId" value="1:882911063028:android:d5aeec420838880334a7a1" />
+                  <option name="projectId" value="campus-marketplace-8cc1c" />
+                  <option name="projectNumber" value="882911063028" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />
