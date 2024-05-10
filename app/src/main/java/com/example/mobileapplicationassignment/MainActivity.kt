@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity() {
         submit.setOnClickListener {
             val vUserId = userid.text.toString()
             val vPassword = password.text.toString()
-            test.text = vUserId
+
 
             // Validate username and password (this is a basic example, you should use secure methods)
             if (vUserId != "" && vPassword != "") {
@@ -44,8 +44,9 @@ class MainActivity : AppCompatActivity() {
                         val storedPassword = dataSnapshot.child(vUserId).child("Password").getValue()
                         if (vPassword == storedPassword) {
                             // Login successful
-                            //var go = Intent(this@MainActivity,MainMenu::class.java)
-                            //startActivity(go)
+                            var go = Intent(this@MainActivity,MainMenu::class.java)
+                            startActivity(go)
+                            test.text = vUserId
                             Toast.makeText(this@MainActivity, "Valid", Toast.LENGTH_LONG).show()
                         } else {
                             // Login failed
