@@ -42,6 +42,9 @@ class ProfileFragment : Fragment() {
         var addPBtn: TextView = view.findViewById(R.id.addProduct)
         var delPBtn: TextView = view.findViewById(R.id.deleteProduct)
         var viewPBtn: TextView = view.findViewById(R.id.viewProduct)
+        var exBtnH: ImageView = view.findViewById(R.id.expandBtnH)
+        var viewPurchase:TextView = view.findViewById(R.id.purchaseHistory)
+        var viewSell:TextView = view.findViewById(R.id.sellHistory)
         exBtn.setOnClickListener {
             if (addPBtn.visibility == View.VISIBLE) {
                 addPBtn.visibility = View.GONE
@@ -55,6 +58,20 @@ class ProfileFragment : Fragment() {
                 exBtn.setImageResource(R.drawable.baseline_arrow_drop_up_24)
             }
         }
+        exBtnH.setOnClickListener {
+            if (viewPurchase.visibility == View.VISIBLE) {
+                viewPurchase.visibility = View.GONE
+                viewSell.visibility = View.GONE
+                exBtnH.setImageResource(R.drawable.baseline_arrow_drop_down_24)
+            } else {
+                viewPurchase.visibility = View.VISIBLE
+                viewSell.visibility = View.VISIBLE
+                exBtnH.setImageResource(R.drawable.baseline_arrow_drop_up_24)
+            }
+        }
+
+
+
 
 
 
