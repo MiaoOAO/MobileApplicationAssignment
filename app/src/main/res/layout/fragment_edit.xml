@@ -1,14 +1,138 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".EditFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:orientation="vertical">
 
-</FrameLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="560dp">
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Edit Profile"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.106"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.057" />
+
+            <EditText
+                android:id="@+id/mEditName"
+                android:layout_width="363dp"
+                android:layout_height="59dp"
+                android:background="#F1F1F1"
+                android:ems="10"
+                android:hint="Price"
+                android:inputType="text"
+                android:paddingLeft="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/mEditId"
+                app:layout_constraintStart_toStartOf="@+id/mEditId"
+                app:layout_constraintTop_toBottomOf="@+id/mEditId" />
+
+            <TextView
+
+                android:id="@+id/mEditId"
+                android:layout_width="363dp"
+                android:layout_height="59dp"
+                android:layout_marginTop="64dp"
+                android:background="#F1F1F1"
+                android:ems="10"
+                android:padding="16dp"
+                android:text="Id"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="@+id/mImgPhoto"
+                app:layout_constraintHorizontal_bias="0.502"
+                app:layout_constraintStart_toStartOf="@+id/mImgPhoto"
+                app:layout_constraintTop_toBottomOf="@+id/mImgPhoto" />
+
+            <ImageView
+                android:id="@+id/mImgPhoto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="28dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView"
+                app:layout_constraintVertical_bias="0.026"
+                tools:src="@tools:sample/avatars" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="446dp">
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Change Password"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.106"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.057" />
+
+            <EditText
+                android:id="@+id/changePassword"
+                android:layout_width="360dp"
+                android:layout_height="54dp"
+                android:background="#F1F1F1"
+                android:ems="10"
+                android:hint="Enter Password"
+                android:inputType="text"
+                android:paddingLeft="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.301"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.238" />
+
+            <EditText
+                android:id="@+id/confirmPassword"
+                android:layout_width="363dp"
+                android:layout_height="59dp"
+                android:layout_marginTop="32dp"
+                android:background="#F1F1F1"
+                android:ems="10"
+                android:hint="Confirm Password"
+                android:inputType="text"
+                android:paddingLeft="16dp"
+                app:layout_constraintEnd_toEndOf="@+id/changePassword"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/changePassword"
+                app:layout_constraintTop_toBottomOf="@+id/changePassword" />
+
+            <Button
+                android:id="@+id/btnModify"
+                android:layout_width="312dp"
+                android:layout_height="wrap_content"
+                android:text="Modify"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/confirmPassword"
+                app:layout_constraintStart_toStartOf="@+id/confirmPassword"
+                app:layout_constraintTop_toBottomOf="@+id/confirmPassword" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+</ScrollView>

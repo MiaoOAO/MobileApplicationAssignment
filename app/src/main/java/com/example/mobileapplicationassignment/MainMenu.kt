@@ -35,7 +35,7 @@ class MainMenu : AppCompatActivity() {
         setContentView(R.layout.activity_main_menu)
 
 
-        val name = intent.getStringExtra("name").toString()
+        val id = intent.getStringExtra("Id").toString()
 
 
 
@@ -62,7 +62,7 @@ class MainMenu : AppCompatActivity() {
                     drawerLayout.closeDrawer(GravityCompat.START)
                     val fragment = ProfileFragment()
                     val bundle = Bundle()
-                    bundle.putString("name",name)
+                    bundle.putString("id",id)
                     fragment.arguments = bundle
 
                     replaceFragment(fragment)
@@ -72,7 +72,7 @@ class MainMenu : AppCompatActivity() {
                 drawerLayout.closeDrawer(GravityCompat.START)
                 val fragment = ShoppingCartFragment()
                 val bundle = Bundle()
-                bundle.putString("name",name)
+                bundle.putString("id",id)
                 fragment.arguments = bundle
 
                 replaceFragment(fragment)
@@ -82,7 +82,7 @@ class MainMenu : AppCompatActivity() {
                 drawerLayout.closeDrawer(GravityCompat.START)
                 val fragment = FavoriteProductFragment()
                 val bundle = Bundle()
-                bundle.putString("name",name)
+                bundle.putString("id",id)
                 fragment.arguments = bundle
 
                 replaceFragment(fragment)

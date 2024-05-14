@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav"
-    app:startDestination="@id/editFragment">
+    app:startDestination="@id/viewProductFragment">
 
     <fragment
         android:id="@+id/profileFragment"
@@ -54,7 +54,14 @@
         android:id="@+id/editFragment"
         android:name="com.example.mobileapplicationassignment.EditFragment"
         android:label="fragment_edit"
-        tools:layout="@layout/fragment_edit" />
+        tools:layout="@layout/fragment_edit" >
+        <argument
+            android:name="id"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_editFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+    </fragment>
     <fragment
         android:id="@+id/shoppingCartFragment"
         android:name="com.example.mobileapplicationassignment.ShoppingCartFragment"

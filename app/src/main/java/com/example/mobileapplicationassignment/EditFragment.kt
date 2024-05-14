@@ -1,10 +1,27 @@
 package com.example.mobileapplicationassignment
 
+import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.TextView
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
+import java.util.UUID
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -20,6 +37,11 @@ class EditFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+    private lateinit var dbRef : DatabaseReference
+    private lateinit var  galleryUri : Uri
+    private lateinit var storageRef : StorageReference
+    private lateinit var mImg:ImageView
+    private val args:EditFragmentArgs by navArgs()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,27 +55,93 @@ class EditFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        var view = inflater.inflate(R.layout.fragment_edit, container, false)
+        mImg= view.findViewById(R.id.mImgPhoto)
+        var mId:TextView = view.findViewById(R.id.mEditId)
+        var mName:TextView = view.findViewById((R.id.mEditName))
+        var cPassword:TextView = view.findViewById(R.id.changePassword)
+        var conPassword:TextView = view.findViewById(R.id.confirmPassword)
+        var btnMod:Button = view.findViewById(R.id.btnModify)
+        val id = arguments?.getString("id").toString()
+
+        storageRef = FirebaseStorage.getInstance().reference
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_edit, container, false)
+
+        dbRef = FirebaseDatabase.getInstance().getReference("User")
+        dbRef.addValueEventListener(object: ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                var imgP = snapshot.child(id).child("ProfileImage").getValue()
+                var img = imgP.toString()
+                var stuId = snapshot.child(id).child("Id").getValue()
+                var imgRef = FirebaseStorage.getInstance().getReferenceFromUrl(img)
+                val ONE_MEGABYTE: Long = 1024 * 1024
+                imgRef.getBytes(ONE_MEGABYTE)
+                    .addOnSuccessListener { bytes ->
+                        // Convert the bytes to a Bitmap
+                        val bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
+//                            // Display the Bitmap in an ImageView
+                        //imgPhoto.setImageBitmap(bitmap)
+                        mImg.setImageBitmap(bitmap)
+                    }
+
+                mId.text = stuId.toString()
+                mName.text = id
+
+
+            }
+            override fun onCancelled(error: DatabaseError) {
+                Toast.makeText(requireContext(), "Error: $error", Toast.LENGTH_LONG).show()
+            }
+        })
+
+        btnMod.setOnClickListener(){
+            var cP =cPassword.text.toString()
+            var conP = conPassword.text.toString()
+            if( cP == conP && mName.text.toString().isNotEmpty()){
+                val imgId = UUID.randomUUID()
+                val imgRef = storageRef.child("image/${imgId}.png")
+                imgRef.putFile(galleryUri)
+                    .addOnSuccessListener { taskSnapshot ->
+                        // Get download URL
+                        imgRef.downloadUrl.addOnSuccessListener { uri ->
+                            dbRef.child("2204107").child("Password").setValue(cP)
+                            dbRef.child("2204107").child("Name").setValue(mName.text.toString())
+                            dbRef.child("2204107").child("ProfileImage").setValue(uri.toString())
+                                .addOnSuccessListener {
+                                    Toast.makeText(requireContext(), "upload successful", Toast.LENGTH_LONG).show()
+                                    findNavController().navigate(R.id.action_editFragment_to_profileFragment)
+                                }
+                                .addOnFailureListener{
+                                    Toast.makeText(requireContext(), "Fail to upload image", Toast.LENGTH_LONG).show()
+                                    Toast.makeText(requireContext(), "Error ${it.toString()}", Toast.LENGTH_LONG).show()
+                                }
+
+                        }
+                    }
+
+            }
+
+
+
+
+
+
+
+        }
+
+
+
+        return view
+    }
+    private val galleryLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) {
+        galleryUri = it!!
+        try{
+            mImg.setImageURI(galleryUri)
+        }catch(e:Exception){
+            e.printStackTrace()
+        }
+
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment EditFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            EditFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
-    }
+
 }

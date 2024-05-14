@@ -13,6 +13,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.example.mobileapplicationassignment.ProfileFragmentDirections
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
@@ -43,6 +44,14 @@ class ProfileFragment : Fragment() {
             param2 = it.getString(ARG_PARAM2)
         }
     }
+    private fun replaceFragment(fragment: Fragment){
+        if(fragment != null){
+            val transaction = activity?.supportFragmentManager?.beginTransaction()
+            transaction?.replace(R.id.fragmentContainerView, fragment)
+            transaction?.addToBackStack(null)
+            transaction?.commit()
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -63,7 +72,7 @@ class ProfileFragment : Fragment() {
         var edit:ImageView = view.findViewById(R.id.editBtn)
 
         //var myViewModel = ViewModelProvider(this).get(ProductViewModel::class.java)
-        val name = arguments?.getString("name").toString()
+        val id = arguments?.getString("id").toString()
 
         exBtn.setOnClickListener {
             if (addPBtn.visibility == View.VISIBLE) {
@@ -89,20 +98,50 @@ class ProfileFragment : Fragment() {
         }
 
         addPBtn.setOnClickListener{
-            findNavController().navigate(R.id.action_profileFragment_to_addProductFragment)
+            val fragment = AddProductFragment()
+            val bundle = Bundle()
+            bundle.putString("id",id)
+            fragment.arguments = bundle
+
+            replaceFragment(fragment)
         }
 
         viewPBtn.setOnClickListener{
-            findNavController().navigate(R.id.action_profileFragment_to_viewProductFragment)
+            val fragment = ViewProductFragment()
+            val bundle = Bundle()
+            bundle.putString("id",id)
+            fragment.arguments = bundle
+
+            replaceFragment(fragment)
         }
         viewPurchase.setOnClickListener{
-            findNavController().navigate(R.id.action_profileFragment_to_viewPurchaseHistory)
+            val fragment = ViewPurchaseHistory()
+            val bundle = Bundle()
+            bundle.putString("id",id)
+            fragment.arguments = bundle
+
+            replaceFragment(fragment)
         }
         viewSell.setOnClickListener{
-            findNavController().navigate(R.id.action_profileFragment_to_viewSellingHistory)
+            val fragment = ViewSellingHistory()
+            val bundle = Bundle()
+            bundle.putString("id",id)
+            fragment.arguments = bundle
+
+            replaceFragment(fragment)
         }
         edit.setOnClickListener{
-            findNavController().navigate(R.id.action_profileFragment_to_editFragment)
+//            val bundle = Bundle()
+//            bundle.putString("id", id) // Replace "key" with your key and "value" with the actual value
+//            findNavController().navigate(R.id.action_profileFragment_to_editFragment, bundle)
+            //findNavController().navigate(R.id.action_profileFragment_to_editFragment)
+            val fragment = EditFragment()
+            val bundle = Bundle()
+            bundle.putString("id",id)
+            fragment.arguments = bundle
+
+            replaceFragment(fragment)
+
         }
 
         logOutBtn.setOnClickListener{
@@ -116,9 +155,9 @@ class ProfileFragment : Fragment() {
         dbRef.addValueEventListener(object: ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if(snapshot.exists()) {
-                    var imgP = snapshot.child(name).child("ProfileImage").getValue()
+                    var imgP = snapshot.child(id).child("ProfileImage").getValue()
                     var img = imgP.toString()
-                    var stuId = snapshot.child(name).child("Id").getValue()
+                    var stuId = snapshot.child(id).child("Name").getValue()
                     var imgRef = FirebaseStorage.getInstance().getReferenceFromUrl(img)
                     val ONE_MEGABYTE: Long = 1024 * 1024
                     imgRef.getBytes(ONE_MEGABYTE)
@@ -131,7 +170,7 @@ class ProfileFragment : Fragment() {
                         }
 
                     proId.text = stuId.toString()
-                    proName.text = name
+                    proName.text = id
                 }
 
 

@@ -32,9 +32,10 @@ class MainActivity : AppCompatActivity() {
         var myViewModel = ViewModelProvider(this).get(ProductViewModel::class.java)
 
         fRef = FirebaseDatabase.getInstance().getReference("User")
-        fRef.child("wong").child("Password").setValue("1234")
-        fRef.child("wong").child("ProfileImage").setValue("gs://campus-marketplace-8cc1c.appspot.com/image/Yashiro.png")
-        fRef.child("wong").child("Id").setValue("2204107")
+        fRef.child("2204107").child("Password").setValue("1234")
+        fRef.child("2204107").child("Name").setValue("Wong Cheng Yi")
+        fRef.child("2204107").child("ProfileImage").setValue("gs://campus-marketplace-8cc1c.appspot.com/image/Yashiro.png")
+        fRef.child("2204107").child("Id").setValue("2204107")
 
         dbRef = FirebaseDatabase.getInstance().getReference("User")
         submit.setOnClickListener {
@@ -53,7 +54,7 @@ class MainActivity : AppCompatActivity() {
                             test.text = vUserId
                             Toast.makeText(this@MainActivity, "Valid", Toast.LENGTH_LONG).show()
                             var intent = Intent(this@MainActivity,MainMenu::class.java)
-                            intent.putExtra("name", vUserId)
+                            intent.putExtra("Id", vUserId)
                             startActivity(intent)
 
                         } else {
