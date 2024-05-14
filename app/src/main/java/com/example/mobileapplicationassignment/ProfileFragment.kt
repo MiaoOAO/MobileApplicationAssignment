@@ -11,15 +11,11 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
-import com.example.mobileapplicationassignment.ProfileFragmentDirections
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import com.google.firebase.database.getValue
 import com.google.firebase.storage.FirebaseStorage
 
 // TODO: Rename parameter arguments, choose names that match
@@ -63,7 +59,7 @@ class ProfileFragment : Fragment() {
         var addPBtn: TextView = view.findViewById(R.id.addProduct)
         var viewPBtn: TextView = view.findViewById(R.id.viewProduct)
         var exBtnH: ImageView = view.findViewById(R.id.expandBtnH)
-        var viewPurchase:TextView = view.findViewById(R.id.purchaseHistory)
+        var viewPurchase:TextView = view.findViewById(R.id.myPurchList)
         var viewSell:TextView = view.findViewById(R.id.sellHistory)
         var logOutBtn:Button = view.findViewById(R.id.logOutBtn)
         var proImg:ImageView = view.findViewById(R.id.profileImg)

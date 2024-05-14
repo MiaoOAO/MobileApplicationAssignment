@@ -67,6 +67,10 @@ class EditFragment : Fragment() {
         storageRef = FirebaseStorage.getInstance().reference
         // Inflate the layout for this fragment
 
+        mImg.setOnClickListener(){
+            galleryLauncher.launch("image/*")
+        }
+
         dbRef = FirebaseDatabase.getInstance().getReference("User")
         dbRef.addValueEventListener(object: ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -104,12 +108,16 @@ class EditFragment : Fragment() {
                     .addOnSuccessListener { taskSnapshot ->
                         // Get download URL
                         imgRef.downloadUrl.addOnSuccessListener { uri ->
-                            dbRef.child("2204107").child("Password").setValue(cP)
-                            dbRef.child("2204107").child("Name").setValue(mName.text.toString())
-                            dbRef.child("2204107").child("ProfileImage").setValue(uri.toString())
+                            dbRef.child(id).child("Password").setValue(cP)
+                            dbRef.child(id).child("Name").setValue(mName.text.toString())
+                            dbRef.child(id).child("ProfileImage").setValue(uri.toString())
                                 .addOnSuccessListener {
                                     Toast.makeText(requireContext(), "upload successful", Toast.LENGTH_LONG).show()
-                                    findNavController().navigate(R.id.action_editFragment_to_profileFragment)
+                                    val fragment = ProfileFragment()
+                                    val transaction = activity?.supportFragmentManager?.beginTransaction()
+                                    transaction?.replace(R.id.fragmentContainerView, fragment)
+                                    transaction?.addToBackStack(null)
+                                    transaction?.commit()
                                 }
                                 .addOnFailureListener{
                                     Toast.makeText(requireContext(), "Fail to upload image", Toast.LENGTH_LONG).show()

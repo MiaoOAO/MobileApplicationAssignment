@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mobileapplicationassignment.data.Product
+import com.example.mobileapplicationassignment.dataAdapter.VPAdapter
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -27,11 +28,11 @@ private const val ARG_PARAM2 = "param2"
  * Use the [ViewProductFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class ViewProductFragment : Fragment() {
+class ViewProductFragment : Fragment(),VPAdapter.ButtonClickListener {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
-    private lateinit var personList: ArrayList<Product>
+    private lateinit var productList: ArrayList<Product>
     private lateinit var dbRef : DatabaseReference
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,32 +51,37 @@ class ViewProductFragment : Fragment() {
         var recyclerView: RecyclerView = view.findViewById(R.id.myPList)
         // Create a storage reference from our app
         val id = arguments?.getString("id").toString()
-        dbRef = FirebaseDatabase.getInstance().getReference("Person")
+        dbRef = FirebaseDatabase.getInstance().getReference("User").child(id)
         //val person = Person("P002", "Yashiro", "gs://fir-622cc.appspot.com/myImg/Yashiro.png")
 
         fetchData(recyclerView)
         return view
     }
     private fun fetchData(recyclerView: RecyclerView){
-        personList = arrayListOf()
+        productList = arrayListOf()
         dbRef.addValueEventListener(object: ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                personList.clear()
+                productList.clear()
                 if(snapshot.exists()) {
-//                    for (personSnap in snapshot.child("Product").children) {
-//                        val person = personSnap.getValue(Person::class.java)
-//                        personList.add(person!!)
-//                    }
+                    for (personSnap in snapshot.child("Product").children) {
+                        val product = personSnap.getValue(Product::class.java)
+                        productList.add(product!!)
+                    }
                 }
 
-//                recyclerView.adapter  = ListAdapter(personList,this@ListFragment)
-//                recyclerView.layoutManager = LinearLayoutManager(requireContext())
-//                recyclerView.setHasFixedSize(true)
+                recyclerView.adapter  = VPAdapter(productList,this@ViewProductFragment)
+                recyclerView.layoutManager = LinearLayoutManager(requireContext())
+                recyclerView.setHasFixedSize(true)
             }
             override fun onCancelled(error: DatabaseError) {
                 Toast.makeText(requireContext(), "Error: $error", Toast.LENGTH_LONG).show()
             }
         })
+    }
+    override fun onButtonClick(position: Int) {
+        val aProduct = productList[position]
+        dbRef.child("Selling").child(aProduct.id).removeValue()
+        // Handle button click for the item at the given position
     }
 
 
