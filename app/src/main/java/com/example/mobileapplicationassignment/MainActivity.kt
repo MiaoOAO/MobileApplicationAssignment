@@ -8,6 +8,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
@@ -28,9 +29,13 @@ class MainActivity : AppCompatActivity() {
         var password:TextView = findViewById(R.id.enterPassword)
         var submit:Button = findViewById(R.id.loginBtn)
         var test:TextView = findViewById(R.id.textView)
+        var myViewModel = ViewModelProvider(this).get(ProductViewModel::class.java)
 
         fRef = FirebaseDatabase.getInstance().getReference("User")
         fRef.child("wong").child("Password").setValue("1234")
+        fRef.child("wong").child("ProfileImage").setValue("gs://campus-marketplace-8cc1c.appspot.com/image/Yashiro.png")
+        fRef.child("wong").child("Id").setValue("2204107")
+
         dbRef = FirebaseDatabase.getInstance().getReference("User")
         submit.setOnClickListener {
             val vUserId = userid.text.toString()
@@ -44,10 +49,13 @@ class MainActivity : AppCompatActivity() {
                         val storedPassword = dataSnapshot.child(vUserId).child("Password").getValue()
                         if (vPassword == storedPassword) {
                             // Login successful
-                            var go = Intent(this@MainActivity,MainMenu::class.java)
-                            startActivity(go)
+
                             test.text = vUserId
                             Toast.makeText(this@MainActivity, "Valid", Toast.LENGTH_LONG).show()
+                            var intent = Intent(this@MainActivity,MainMenu::class.java)
+                            intent.putExtra("name", vUserId)
+                            startActivity(intent)
+
                         } else {
                             // Login failed
                             Toast.makeText(this@MainActivity, "Invalid username or password", Toast.LENGTH_SHORT).show()

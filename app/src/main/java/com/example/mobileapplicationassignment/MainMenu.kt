@@ -10,6 +10,8 @@ import androidx.core.view.GravityCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.navigation.NavigationView
 
 class MainMenu : AppCompatActivity() {
@@ -17,9 +19,23 @@ class MainMenu : AppCompatActivity() {
     private lateinit var navigationView : NavigationView
     private lateinit var actionBarDrawerToggle : ActionBarDrawerToggle
     private lateinit var myToolbar: Toolbar
+
+    private fun replaceFragment(fragment: Fragment){
+        if(fragment != null){
+            val transaction = supportFragmentManager.beginTransaction()
+            transaction.replace(R.id.fragmentContainerView, fragment)
+            transaction.addToBackStack(null)
+            transaction.commit()
+        }
+    }
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_menu)
+
+
+        val name = intent.getStringExtra("name").toString()
 
 
 
@@ -29,8 +45,7 @@ class MainMenu : AppCompatActivity() {
 
         drawerLayout = findViewById(R.id.drawer_layout)
         navigationView = findViewById(R.id.navigationView)
-        actionBarDrawerToggle = ActionBarDrawerToggle(this, drawerLayout, R.string.menu_Open,
-            R.string.menu_Close)
+        actionBarDrawerToggle = ActionBarDrawerToggle(this, drawerLayout, R.string.menu_Open, R.string.menu_Close)
         drawerLayout.addDrawerListener(actionBarDrawerToggle)
         actionBarDrawerToggle.syncState()
         supportActionBar?.setDisplayShowHomeEnabled(true)
@@ -39,15 +54,27 @@ class MainMenu : AppCompatActivity() {
             when(menuItem.itemId) {
                 R.id.nav_home -> {
                     drawerLayout.closeDrawer(GravityCompat.START)
-
+                    //replaceFragment()
 //you action.....
 
                     true
-                }else ->{
+                }R.id.nav_profile ->{
+                    drawerLayout.closeDrawer(GravityCompat.START)
+                    val fragment = ProfileFragment()
+                    val bundle = Bundle()
+                    bundle.putString("name",name)
+                    fragment.arguments = bundle
+
+                    replaceFragment(fragment)
+
+                    true
+                }
+                else ->{
                 false
             }
             }
         }
+
     }
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (actionBarDrawerToggle.onOptionsItemSelected(item))
