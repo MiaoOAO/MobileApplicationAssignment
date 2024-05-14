@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -47,14 +48,22 @@ class ViewSellingHistory : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         var view = inflater.inflate(R.layout.fragment_view_selling_history, container, false)
-        var recyclerView: RecyclerView = view.findViewById(R.id.sellHistory)
+        var recyclerView: RecyclerView = view.findViewById(R.id.sellingHList)
+        var backButton:Button = view.findViewById(R.id.VSHBackButton)
         // Create a storage reference from our app
         val id = arguments?.getString("id").toString()
         dbRef = FirebaseDatabase.getInstance().getReference("User").child(id)
         //val person = Person("P002", "Yashiro", "gs://fir-622cc.appspot.com/myImg/Yashiro.png")
 
         fetchData(recyclerView)
+        backButton.setOnClickListener{
+            val fragment = ProfileFragment()
+            val transaction = activity?.supportFragmentManager?.beginTransaction()
+            transaction?.replace(R.id.fragmentContainerView, fragment)
+            transaction?.addToBackStack(null)
+            transaction?.commit()
 
+        }
         return view
     }
     private fun fetchData(recyclerView: RecyclerView){
