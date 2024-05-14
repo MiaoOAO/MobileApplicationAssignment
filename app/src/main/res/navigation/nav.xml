@@ -55,4 +55,9 @@
         android:name="com.example.mobileapplicationassignment.EditFragment"
         android:label="fragment_edit"
         tools:layout="@layout/fragment_edit" />
+    <fragment
+        android:id="@+id/shoppingCartFragment"
+        android:name="com.example.mobileapplicationassignment.ShoppingCartFragment"
+        android:label="fragment_shopping_cart"
+        tools:layout="@layout/fragment_shopping_cart" />
 </navigation>
