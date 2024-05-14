@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.mobileapplicationassignment.data.Product
 import com.example.mobileapplicationassignment.dataAdapter.VPAdapter
 import com.example.mobileapplicationassignment.dataAdapter.VPHAdapter
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
@@ -51,7 +52,7 @@ class ViewPurchaseHistory : Fragment() {
 
         var view = inflater.inflate(R.layout.fragment_view_purchase_history, container, false)
         var recyclerView: RecyclerView = view.findViewById(R.id.myPurchList)
-        var backButton: Button = view.findViewById(R.id.VPHBackButton)
+        var backButton = view.findViewById<FloatingActionButton>(R.id.VPHBackButton)
         // Create a storage reference from our app
         val id = arguments?.getString("id").toString()
         dbRef = FirebaseDatabase.getInstance().getReference("User").child(id)
