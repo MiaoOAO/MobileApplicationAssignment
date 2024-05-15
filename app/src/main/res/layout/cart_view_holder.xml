@@ -7,21 +7,22 @@
 
     <ImageView
         android:id="@+id/CartProductImg"
-        android:layout_width="103dp"
-        android:layout_height="109dp"
-        android:layout_marginTop="40dp"
+        android:layout_width="104dp"
+        android:layout_height="124dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.175"
+        app:layout_constraintHorizontal_bias="0.053"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
         tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
         android:id="@+id/CartProductName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
         android:text="ProductName"
         app:layout_constraintStart_toEndOf="@+id/CartProductImg"
         app:layout_constraintTop_toTopOf="@+id/CartProductImg" />
@@ -30,9 +31,19 @@
         android:id="@+id/CartProductPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="208dp"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="56dp"
         android:text="Price"
-        app:layout_constraintStart_toEndOf="@+id/CartProductImg"
+        app:layout_constraintStart_toStartOf="@+id/CartProductName"
         app:layout_constraintTop_toBottomOf="@+id/CartProductName" />
+
+    <Button
+        android:id="@+id/deleteCart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="152dp"
+        android:text="Button"
+        app:layout_constraintBottom_toBottomOf="@+id/CartProductPrice"
+        app:layout_constraintStart_toEndOf="@+id/CartProductPrice"
+        app:layout_constraintTop_toTopOf="@+id/CartProductPrice"
+        app:layout_constraintVertical_bias="0.896" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -18,6 +18,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mobileapplicationassignment.data.Product
 import com.example.mobileapplicationassignment.dataAdapter.CartAdapter
+import com.example.mobileapplicationassignment.dataAdapter.VPAdapter
+import com.example.mobileapplicationassignment.dataAdapter.VPHAdapter
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
@@ -41,6 +44,7 @@ class ShoppingCartFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+    private lateinit var productList: ArrayList<Product>
     private lateinit var dbRef : DatabaseReference
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,85 +61,50 @@ class ShoppingCartFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         var view = inflater.inflate(R.layout.fragment_shopping_cart, container, false)
+        // Inflate the layout for this fragment
+        var recyclerView: RecyclerView = view.findViewById(R.id.CartRecycleView)
+//        var backButton = view.findViewById<FloatingActionButton>(R.id.VPBackButton)
+        // Create a storage reference from our app
+        val id = arguments?.getString("id").toString()
+        dbRef = FirebaseDatabase.getInstance().getReference("User").child(id)
+        //val person = Person("P002", "Yashiro", "gs://fir-622cc.appspot.com/myImg/Yashiro.png")
 
-        val productList : List<Product> = listOf(
-            Product("John", "john@gmail.com", true, "good", 10,),
-            Product("John", "john@gmail.com", true, "good", 10,),
-            Product("John", "john@gmail.com", true, "good", 10,),
-        )
+        fetchData(recyclerView)
 
-        val recyclerView: RecyclerView = view.findViewById(R.id.CartRecycleView)
-        recyclerView.adapter = CartAdapter(productList)
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        recyclerView.setHasFixedSize(true)
-//        var productImage: ImageView = view.findViewById(R.id.CartProductImg)
+//        backButton.setOnClickListener{
+//            val fragment = ProfileFragment()
+//            val bundle = Bundle()
+//            bundle.putString("id",id)
+//            fragment.arguments = bundle
+//            val transaction = activity?.supportFragmentManager?.beginTransaction()
+//            transaction?.replace(R.id.fragmentContainerView, fragment)
+//            transaction?.addToBackStack(null)
+//            transaction?.commit()
 //
-//
-//        val database = FirebaseDatabase.getInstance()
-//        val reference = database.getReference("Product") // Replace "Product" with your root node name
-//
-//        reference.addValueEventListener(object : ValueEventListener {
-//            override fun onDataChange(dataSnapshot: DataSnapshot) {
-//                val products = mutableListOf<Product>()  // Create a list to store products
-//
-//                for (childSnapshot in dataSnapshot.children) {
-//                    val productMap = childSnapshot.value as HashMap<*, *>  // Cast to HashMap
-//
-//                    // Handle potential null values in the map
-//                    val id = productMap["id"] as String?
-//                    val name = productMap["name"] as String?
-//                    val status = productMap["status"] as Boolean?  // Assuming boolean values are stored correctly
-//                    val description = productMap["description"] as String?
-//                    val price = productMap["price"] as Int?  // Assuming integer values are stored correctly
-//                    val image = productMap["image"] as String?
-//
-//                    // Create Product object only if all required fields have values (optional)
-//                    if (id != null && name != null && description != null && price != null && image != null) {
-//                        val product = Product(id, name, status ?: true, description, price, image)  // Use default value if status is null
-//                        products.add(product)
-//                    } else {
-//                        // Handle cases where some data is missing (optional)
-//                        Log.w("Firebase", "Product data incomplete for child: ${childSnapshot.key}")
-//                    }
-//                }
-//            }
-//
-//            override fun onCancelled(databaseError: DatabaseError) {
-//                Log.w("Firebase", "Error retrieving data", databaseError.toException())
-//            }
-//        })
+//        }
+        return view
+    }
 
-//        val Pid = arguments?.getString("ProductId").toString()
-//
-//        dbRef = FirebaseDatabase.getInstance().getReference("Product")
-//        dbRef.addValueEventListener(object: ValueEventListener {
-//            override fun onDataChange(snapshot: DataSnapshot) {
-//                if(snapshot.exists()) {
-//                    var imgP = snapshot.child(Pid).child("ProductImage").getValue()
-//                    var img = imgP.toString()
-////                    var stuId = snapshot.child(name).child("ProductId").getValue()
-//                    var imgRef = FirebaseStorage.getInstance().getReferenceFromUrl(img)
-//                    val ONE_MEGABYTE: Long = 1024 * 1024
-//                    imgRef.getBytes(ONE_MEGABYTE)
-//                        .addOnSuccessListener { bytes ->
-//                            // Convert the bytes to a Bitmap
-//                            val bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
-////                            // Display the Bitmap in an ImageView
-//                            //imgPhoto.setImageBitmap(bitmap)
-//                            productImage.setImageBitmap(bitmap)
-//                        }
-//
-//
-//                }
-//
-//
-//            }
-//            override fun onCancelled(error: DatabaseError) {
-//                Toast.makeText(requireContext(), "Error: $error", Toast.LENGTH_LONG).show()
-//            }
-//        })
+    private fun fetchData(recyclerView: RecyclerView){
 
-                return view
+        productList = arrayListOf()
+        dbRef.addValueEventListener(object: ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                productList.clear()
+                if(snapshot.exists()) {
+                    for (personSnap in snapshot.child("Product").children) {
+                        val product = personSnap.getValue(Product::class.java)
+                        productList.add(product!!)
+                    }
+                }
+                recyclerView.adapter = CartAdapter(productList)
+                recyclerView.layoutManager = LinearLayoutManager(requireContext())
+                recyclerView.setHasFixedSize(true)
             }
+            override fun onCancelled(error: DatabaseError) {
+                Toast.makeText(requireContext(), "Error: $error", Toast.LENGTH_LONG).show()
+            }
+        })
+    }
 
 }
