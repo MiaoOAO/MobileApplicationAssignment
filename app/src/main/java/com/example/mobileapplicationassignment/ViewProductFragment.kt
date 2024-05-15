@@ -50,7 +50,7 @@ class ViewProductFragment : Fragment(),VPAdapter.ButtonClickListener {
         var view = inflater.inflate(R.layout.fragment_view_product, container, false)
         // Inflate the layout for this fragment
         var recyclerView: RecyclerView = view.findViewById(R.id.myPList)
-        var backButton = view.findViewById<FloatingActionButton>(R.id.VPBackButton)
+        var backButton:Button = view.findViewById(R.id.VPBackButton)
         // Create a storage reference from our app
         val id = arguments?.getString("id").toString()
         dbRef = FirebaseDatabase.getInstance().getReference("User").child(id)
