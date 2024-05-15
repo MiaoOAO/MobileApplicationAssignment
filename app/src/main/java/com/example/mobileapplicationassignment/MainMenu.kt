@@ -56,7 +56,12 @@ class MainMenu : AppCompatActivity() {
                     drawerLayout.closeDrawer(GravityCompat.START)
                     //replaceFragment()
 //you action.....
+                    val fragment = HomepageFragment()
+                    val bundle = Bundle()
+                    bundle.putString("id",id)
+                    fragment.arguments = bundle
 
+                    replaceFragment(fragment)
                     true
                 }R.id.nav_profile ->{
                     drawerLayout.closeDrawer(GravityCompat.START)

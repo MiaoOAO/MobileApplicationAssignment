@@ -8,11 +8,12 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.mobileapplicationassignment.DetailFragment
 import com.example.mobileapplicationassignment.R
 import com.example.mobileapplicationassignment.data.Product
 import com.google.firebase.storage.FirebaseStorage
 
-class VPAdapter (private val productList: List<Product>,private val listener: ButtonClickListener) : RecyclerView.Adapter <VPAdapter.MyViewHolder>(){
+class VPAdapter(private val productList: List<Product>, private val listener: ButtonClickListener) : RecyclerView.Adapter <VPAdapter.MyViewHolder>(){
 
     inner class MyViewHolder (itemView: View): RecyclerView.ViewHolder(itemView){
         val vName : TextView = itemView.findViewById(R.id.vPName)
