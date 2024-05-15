@@ -40,7 +40,7 @@ class MainMenu : AppCompatActivity() {
 
 
         myToolbar = findViewById(R.id.myToolbar)
-        myToolbar.title = "Drawer menu"
+        myToolbar.title = ""
         setSupportActionBar(myToolbar)
 
         drawerLayout = findViewById(R.id.drawer_layout)
