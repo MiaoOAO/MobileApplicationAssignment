@@ -22,4 +22,16 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
         tools:listitem="@layout/cart_view_holder" />
+
+    <Button
+        android:id="@+id/CheckoutBtn"
+        android:layout_width="168dp"
+        android:layout_height="85dp"
+        android:text="Check Out"
+        app:layout_constraintBottom_toBottomOf="@+id/CartRecycleView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.945"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.928" />
 </androidx.constraintlayout.widget.ConstraintLayout>
