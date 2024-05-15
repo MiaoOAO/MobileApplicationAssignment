@@ -21,12 +21,13 @@
         android:layout_height="73dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
+        android:background="@android:drawable/alert_light_frame"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.048"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.007"
+        app:layout_constraintVertical_bias="0.14"
         tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
@@ -42,12 +43,11 @@
         app:layout_constraintVertical_bias="1.0" />
 
 
-
     <TextView
         android:id="@+id/textView5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="20dp"
         android:text="Description :"
         app:layout_constraintStart_toStartOf="@+id/vPHPhoto"
         app:layout_constraintTop_toBottomOf="@+id/vPHPhoto" />
@@ -56,7 +56,7 @@
         android:id="@+id/vPHDescription"
         android:layout_width="251dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="12dp"
         android:text="content"
         app:layout_constraintStart_toStartOf="@+id/textView5"
         app:layout_constraintTop_toBottomOf="@+id/textView5" />
@@ -71,7 +71,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/vPHName"
         app:layout_constraintStart_toEndOf="@+id/vPHName"
         app:layout_constraintTop_toTopOf="@+id/vPHName"
-        app:layout_constraintVertical_bias="0.6" />
+        app:layout_constraintVertical_bias="1.0" />
 
     <TextView
         android:id="@+id/vPHPrice"

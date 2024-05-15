@@ -112,16 +112,18 @@ class EditFragment : Fragment() {
                             dbRef.child(id).child("Name").setValue(mName.text.toString())
                             dbRef.child(id).child("ProfileImage").setValue(uri.toString())
                                 .addOnSuccessListener {
-                                    Toast.makeText(requireContext(), "upload successful", Toast.LENGTH_LONG).show()
+                                    Toast.makeText(requireContext(), "edit successful", Toast.LENGTH_LONG).show()
                                     val fragment = ProfileFragment()
+                                    val bundle = Bundle()
+                                    bundle.putString("id",id)
+                                    fragment.arguments = bundle
                                     val transaction = activity?.supportFragmentManager?.beginTransaction()
                                     transaction?.replace(R.id.fragmentContainerView, fragment)
                                     transaction?.addToBackStack(null)
                                     transaction?.commit()
                                 }
                                 .addOnFailureListener{
-                                    Toast.makeText(requireContext(), "Fail to upload image", Toast.LENGTH_LONG).show()
-                                    Toast.makeText(requireContext(), "Error ${it.toString()}", Toast.LENGTH_LONG).show()
+                                    Toast.makeText(requireContext(), "Fail to edit profile", Toast.LENGTH_LONG).show()
                                 }
 
                         }

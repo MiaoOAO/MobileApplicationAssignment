@@ -69,28 +69,26 @@ class MainMenu : AppCompatActivity() {
 
                     true
                 }R.id.nav_cart ->{
-                drawerLayout.closeDrawer(GravityCompat.START)
-                val fragment = ShoppingCartFragment()
-                val bundle = Bundle()
-                bundle.putString("id",id)
-                fragment.arguments = bundle
+                    drawerLayout.closeDrawer(GravityCompat.START)
+                    val fragment = ShoppingCartFragment()
+                    val bundle = Bundle()
+                    bundle.putString("id",id)
+                    fragment.arguments = bundle
 
-                replaceFragment(fragment)
-
-                true
-            }R.id.nav_favourite ->{
-                drawerLayout.closeDrawer(GravityCompat.START)
-                val fragment = FavoriteProductFragment()
-                val bundle = Bundle()
-                bundle.putString("id",id)
-                fragment.arguments = bundle
-
-                replaceFragment(fragment)
+                    replaceFragment(fragment)
 
                 true
-            }
+                }R.id.nav_favourite ->{
+                    drawerLayout.closeDrawer(GravityCompat.START)
+                    val fragment = FavoriteProductFragment()
+                    val bundle = Bundle()
+                    bundle.putString("id",id)
+                    fragment.arguments = bundle
 
-                else ->{
+                    replaceFragment(fragment)
+
+                true
+            }else ->{
                 false
             }
             }

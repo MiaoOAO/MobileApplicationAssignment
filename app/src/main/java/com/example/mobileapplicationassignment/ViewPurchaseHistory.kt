@@ -61,6 +61,9 @@ class ViewPurchaseHistory : Fragment() {
         fetchData(recyclerView)
         backButton.setOnClickListener{
             val fragment = ProfileFragment()
+            val bundle = Bundle()
+            bundle.putString("id",id)
+            fragment.arguments = bundle
             val transaction = activity?.supportFragmentManager?.beginTransaction()
             transaction?.replace(R.id.fragmentContainerView, fragment)
             transaction?.addToBackStack(null)

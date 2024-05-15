@@ -11,6 +11,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import com.example.mobileapplicationassignment.data.Product
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
@@ -33,6 +34,7 @@ class ProfileFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
     private lateinit var dbRef : DatabaseReference
+    private lateinit var pdbRef : DatabaseReference
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -69,7 +71,14 @@ class ProfileFragment : Fragment() {
 
         //var myViewModel = ViewModelProvider(this).get(ProductViewModel::class.java)
         val id = arguments?.getString("id").toString()
+        dbRef = FirebaseDatabase.getInstance().getReference("User")
+        pdbRef = FirebaseDatabase.getInstance().getReference("Product")
 
+
+//        var product = Product("1","Gaming Chair",true,"condition 80% new, bought 2 months ago, TTracing brand",120,"gs://campus-marketplace-8cc1c.appspot.com/Product1.png")
+//        dbRef.child(id).child("Product").child(product.id).setValue(product)
+//        //product side
+//        pdbRef.child(product.id).setValue(product)
         exBtn.setOnClickListener {
             if (addPBtn.visibility == View.VISIBLE) {
                 addPBtn.visibility = View.GONE
@@ -147,7 +156,6 @@ class ProfileFragment : Fragment() {
 
 
         }
-        dbRef = FirebaseDatabase.getInstance().getReference("User")
         dbRef.addValueEventListener(object: ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if(snapshot.exists()) {

@@ -10,10 +10,12 @@
         android:id="@+id/myPList"
         android:layout_width="409dp"
         android:layout_height="729dp"
+        android:layout_margin="1dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:listitem="@layout/my_product_view_holder"/>
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/VPBackButton"
         android:layout_width="match_parent"

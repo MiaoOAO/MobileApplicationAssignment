@@ -50,7 +50,7 @@ class ViewProductFragment : Fragment(),VPAdapter.ButtonClickListener {
         var view = inflater.inflate(R.layout.fragment_view_product, container, false)
         // Inflate the layout for this fragment
         var recyclerView: RecyclerView = view.findViewById(R.id.myPList)
-        var backButton:Button = view.findViewById(R.id.VPBackButton)
+        var backButton = view.findViewById<FloatingActionButton>(R.id.VPBackButton)
         // Create a storage reference from our app
         val id = arguments?.getString("id").toString()
         dbRef = FirebaseDatabase.getInstance().getReference("User").child(id)
@@ -60,6 +60,9 @@ class ViewProductFragment : Fragment(),VPAdapter.ButtonClickListener {
 
         backButton.setOnClickListener{
             val fragment = ProfileFragment()
+            val bundle = Bundle()
+            bundle.putString("id",id)
+            fragment.arguments = bundle
             val transaction = activity?.supportFragmentManager?.beginTransaction()
             transaction?.replace(R.id.fragmentContainerView, fragment)
             transaction?.addToBackStack(null)
@@ -91,7 +94,7 @@ class ViewProductFragment : Fragment(),VPAdapter.ButtonClickListener {
     }
     override fun onButtonClick(position: Int) {
         val aProduct = productList[position]
-        dbRef.child("Selling").child(aProduct.id).removeValue()
+        dbRef.child("Product").child(aProduct.id).removeValue()
         // Handle button click for the item at the given position
     }
 

@@ -2,11 +2,10 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".EditFragment">
-
-
+    tools:context=".Register">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -17,10 +16,10 @@
             android:layout_height="560dp">
 
             <TextView
-                android:id="@+id/atextView"
+                android:id="@+id/rTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Edit Profile"
+                android:text="Register"
                 android:textSize="30sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -30,8 +29,24 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.057" />
 
+
             <EditText
-                android:id="@+id/mEditName"
+                android:id="@+id/rEditName"
+                android:layout_width="363dp"
+                android:layout_height="59dp"
+                android:layout_marginTop="80dp"
+                android:background="#F1F1F1"
+                android:ems="10"
+                android:hint="Id"
+                android:inputType="text"
+                android:paddingLeft="16dp"
+                app:layout_constraintEnd_toEndOf="@+id/rImgPhoto"
+                app:layout_constraintHorizontal_bias="0.531"
+                app:layout_constraintStart_toStartOf="@+id/rImgPhoto"
+                app:layout_constraintTop_toBottomOf="@+id/rImgPhoto" />
+
+            <EditText
+                android:id="@+id/rEditId"
                 android:layout_width="363dp"
                 android:layout_height="59dp"
                 android:background="#F1F1F1"
@@ -40,36 +55,21 @@
                 android:inputType="text"
                 android:paddingLeft="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/mEditId"
-                app:layout_constraintStart_toStartOf="@+id/mEditId"
-                app:layout_constraintTop_toBottomOf="@+id/mEditId" />
-
-            <TextView
-
-                android:id="@+id/mEditId"
-                android:layout_width="363dp"
-                android:layout_height="59dp"
-                android:layout_marginTop="64dp"
-                android:background="#F1F1F1"
-                android:ems="10"
-                android:padding="16dp"
-                android:text="Id"
-                android:textSize="20sp"
-                app:layout_constraintEnd_toEndOf="@+id/mImgPhoto"
-                app:layout_constraintHorizontal_bias="0.502"
-                app:layout_constraintStart_toStartOf="@+id/mImgPhoto"
-                app:layout_constraintTop_toBottomOf="@+id/mImgPhoto" />
+                app:layout_constraintEnd_toEndOf="@+id/rEditName"
+                app:layout_constraintStart_toStartOf="@+id/rEditName"
+                app:layout_constraintTop_toBottomOf="@+id/rEditName" />
 
             <ImageView
-                android:id="@+id/mImgPhoto"
+                android:id="@+id/rImgPhoto"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="28dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.498"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/atextView"
-                app:layout_constraintVertical_bias="0.026"
+                app:layout_constraintTop_toBottomOf="@+id/rTextView"
+                app:layout_constraintVertical_bias="0.053"
                 tools:src="@tools:sample/avatars"
                 android:background="@android:drawable/alert_light_frame"/>
 
@@ -80,10 +80,10 @@
             android:layout_height="446dp">
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/rcTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Change Password"
+                android:text="Set Password"
                 android:textSize="30sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -94,7 +94,7 @@
                 app:layout_constraintVertical_bias="0.057" />
 
             <EditText
-                android:id="@+id/changePassword"
+                android:id="@+id/rPassword"
                 android:layout_width="360dp"
                 android:layout_height="54dp"
                 android:background="#F1F1F1"
@@ -110,7 +110,7 @@
                 app:layout_constraintVertical_bias="0.238" />
 
             <EditText
-                android:id="@+id/confirmPassword"
+                android:id="@+id/rConfirmPassword"
                 android:layout_width="363dp"
                 android:layout_height="59dp"
                 android:layout_marginTop="32dp"
@@ -119,10 +119,10 @@
                 android:hint="Confirm Password"
                 android:inputType="text"
                 android:paddingLeft="16dp"
-                app:layout_constraintEnd_toEndOf="@+id/changePassword"
+                app:layout_constraintEnd_toEndOf="@+id/rPassword"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/changePassword"
-                app:layout_constraintTop_toBottomOf="@+id/changePassword" />
+                app:layout_constraintStart_toStartOf="@+id/rPassword"
+                app:layout_constraintTop_toBottomOf="@+id/rPassword" />
 
             <Button
                 android:id="@+id/btnModify"
@@ -130,10 +130,11 @@
                 android:layout_height="wrap_content"
                 android:text="Modify"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/confirmPassword"
-                app:layout_constraintStart_toStartOf="@+id/confirmPassword"
-                app:layout_constraintTop_toBottomOf="@+id/confirmPassword" />
+                app:layout_constraintEnd_toEndOf="@+id/rConfirmPassword"
+                app:layout_constraintStart_toStartOf="@+id/rConfirmPassword"
+                app:layout_constraintTop_toBottomOf="@+id/rConfirmPassword" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>
+
 </ScrollView>

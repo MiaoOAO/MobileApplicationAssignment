@@ -74,7 +74,6 @@ class AddProductFragment : Fragment() {
 
 
         btnMod.setOnClickListener(){
-
             if( aPrice.text.toString().isNotEmpty() && aDesc.text.toString().isNotEmpty() && aName.text.toString().isNotEmpty()){
                 val imgId = UUID.randomUUID()
                 val imgRef = storageRef.child("image/${imgId}.png")
@@ -85,19 +84,23 @@ class AddProductFragment : Fragment() {
                             val rands = (0..1000).random()
                             var pId = rands
                             val product = Product(pId.toString(), aName.text.toString(), true, aDesc.text.toString(), aPrice.text.toString().toInt() ,uri.toString())
+                            //user side
                             dbRef.child(id).child("Product").child(pId.toString()).setValue(product)
+                            //product side
                             pdbRef.child(pId.toString()).setValue(product)
                                 .addOnSuccessListener {
-                                    Toast.makeText(requireContext(), "upload successful", Toast.LENGTH_LONG).show()
+                                    Toast.makeText(requireContext(), "add successful", Toast.LENGTH_LONG).show()
                                     val fragment = ProfileFragment()
+                                    val bundle = Bundle()
+                                    bundle.putString("id",id)
+                                    fragment.arguments = bundle
                                     val transaction = activity?.supportFragmentManager?.beginTransaction()
                                     transaction?.replace(R.id.fragmentContainerView, fragment)
                                     transaction?.addToBackStack(null)
                                     transaction?.commit()
                                 }
                                 .addOnFailureListener{
-                                    Toast.makeText(requireContext(), "Fail to upload image", Toast.LENGTH_LONG).show()
-                                    Toast.makeText(requireContext(), "Error ${it.toString()}", Toast.LENGTH_LONG).show()
+                                    Toast.makeText(requireContext(), "Fail to add product", Toast.LENGTH_LONG).show()
                                 }
 
                         }

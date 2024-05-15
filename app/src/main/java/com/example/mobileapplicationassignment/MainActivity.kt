@@ -9,6 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
+import com.example.mobileapplicationassignment.data.Product
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
@@ -36,7 +37,7 @@ class MainActivity : AppCompatActivity() {
         fRef.child("2204107").child("Name").setValue("Wong Cheng Yi")
         fRef.child("2204107").child("ProfileImage").setValue("gs://campus-marketplace-8cc1c.appspot.com/image/Yashiro.png")
         fRef.child("2204107").child("Id").setValue("2204107")
-
+        var product = Product("1","Gaming Chair",true,"condition 80% new, bought 2 months ago, TTracing brand",120,"gs://campus-marketplace-8cc1c.appspot.com/Product1.png")
         dbRef = FirebaseDatabase.getInstance().getReference("User")
         submit.setOnClickListener {
             val vUserId = userid.text.toString()
