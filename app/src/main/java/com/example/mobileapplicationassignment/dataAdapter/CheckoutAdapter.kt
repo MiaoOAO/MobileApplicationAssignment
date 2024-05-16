@@ -23,10 +23,10 @@ class CheckoutAdapter(private val productList: List<Product>) : RecyclerView.Ada
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CheckoutViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.checkout_view_holder, parent, false )
 
-        return CheckoutAdapter.CheckoutViewHolder(itemView)
+        return CheckoutViewHolder(itemView)
     }
 
-    override fun onBindViewHolder(holder: CheckoutAdapter.CheckoutViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: CheckoutViewHolder, position: Int) {
         val currentItem = productList[position]
         if (currentItem.image.isNotEmpty()) {
             var imgRef = FirebaseStorage.getInstance().getReferenceFromUrl(currentItem.image)

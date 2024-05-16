@@ -40,10 +40,20 @@
         android:id="@+id/deleteCart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="152dp"
-        android:text="Button"
-        app:layout_constraintBottom_toBottomOf="@+id/CartProductPrice"
-        app:layout_constraintStart_toEndOf="@+id/CartProductPrice"
-        app:layout_constraintTop_toTopOf="@+id/CartProductPrice"
-        app:layout_constraintVertical_bias="0.896" />
+        android:layout_marginStart="192dp"
+        android:text="cancel"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/CartProductImg"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.815" />
+
+    <Button
+        android:id="@+id/setFav"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:drawableTop="@drawable/baseline_favorite_border_24"
+        app:layout_constraintBottom_toTopOf="@+id/deleteCart"
+        app:layout_constraintStart_toStartOf="@+id/deleteCart" />
 </androidx.constraintlayout.widget.ConstraintLayout>

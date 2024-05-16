@@ -12,22 +12,23 @@ import com.example.mobileapplicationassignment.R
 import com.example.mobileapplicationassignment.data.Product
 import com.google.firebase.storage.FirebaseStorage
 
-class CartAdapter (private val productList: List<Product>) : RecyclerView.Adapter<CartAdapter.CartViewHolder>(){
+class CartAdapter(private val productList: List<Product>, private val listener: ButtonClickListener) : RecyclerView.Adapter<CartAdapter.CartViewHolder>(){
 
-    class CartViewHolder (itemView : View) : RecyclerView.ViewHolder(itemView){
+    inner class CartViewHolder (itemView : View) : RecyclerView.ViewHolder(itemView){
         val cName : TextView = itemView.findViewById(R.id.CartProductName)
         val cPrice: TextView = itemView.findViewById(R.id.CartProductPrice)
         val cImage: ImageView =itemView.findViewById(R.id.CartProductImg)
-        val button: Button = itemView.findViewById(R.id.deleteCart)
+        val delCartButton: Button = itemView.findViewById(R.id.deleteCart)
+        val favSetButton: Button = itemView.findViewById(R.id.setFav)
 
-//        init {
-//            button.setOnClickListener {
-//                val position = adapterPosition
-//                if (position != RecyclerView.NO_POSITION) {
-//                    listener.onButtonClick(position)
-//                }
-//            }
-//        }
+        init {
+            delCartButton.setOnClickListener {
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    listener.onButtonClick(position)
+                }
+            }
+        }
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CartViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.cart_view_holder, parent, false )
@@ -64,7 +65,7 @@ class CartAdapter (private val productList: List<Product>) : RecyclerView.Adapte
 
     }
 
-//    interface ButtonClickListener {
-//        fun onButtonClick(position: Int)
-//    }
+    interface ButtonClickListener {
+        fun onButtonClick(position: Int)
+    }
 }
