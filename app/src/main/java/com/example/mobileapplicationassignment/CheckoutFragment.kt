@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mobileapplicationassignment.data.Product
@@ -69,7 +70,6 @@ class CheckoutFragment : Fragment(), PaymentResultWithDataListener, ExternalWall
         val co = Checkout()
         // apart from setting it in AndroidManifest.xml, keyId can also be set
         // programmatically during runtime
-        co.setKeyID("rzp_test_VfADYqBJCpWTs9")
 
         paymentBtn.setOnClickListener{
             makePayment()
@@ -118,24 +118,25 @@ class CheckoutFragment : Fragment(), PaymentResultWithDataListener, ExternalWall
         /*
        *  You need to pass the current activity to let Razorpay create CheckoutActivity
        * */
-//        val activity:Activity = this
-
-        Checkout.preload(requireContext())
+        val activity: FragmentActivity = requireActivity()
+//
+//        Checkout.preload(requireContext())
         val co = Checkout()
+        var amount = 100000
         // apart from setting it in AndroidManifest.xml, keyId can also be set
         // programmatically during runtime
-        co.setKeyID("rzp_test_VfADYqBJCpWTs9")
+        //co.setKeyID("rzp_test_VfADYqBJCpWTs9")
 
         try {
             val options = JSONObject()
             options.put("name","HAHAHA Corp")
-            options.put("description","Demoing Charges")
+            options.put("description","Demoing Charges EEEEEE")
             //You can omit the image option to fetch the image from the dashboard
             options.put("image","http://example.com/image/rzp.jpg")
             options.put("theme.color", "#3399cc");
             options.put("currency","MYR");
             options.put("order_id", "order_DBJOWzybf0sJbb");
-            options.put("amount","50000")//pass amount in currency subunits
+            options.put("amount",10000*5)//pass amount in currency subunits
 
             val retryObj = JSONObject()
             retryObj.put("enabled", true);
@@ -144,10 +145,11 @@ class CheckoutFragment : Fragment(), PaymentResultWithDataListener, ExternalWall
 
             val prefill = JSONObject()
             prefill.put("email","gaurav.kumar@example.com")
-            prefill.put("contact","9876543210")
+            prefill.put("contact","9876543210888")
 
             options.put("prefill",prefill)
             co.open(activity,options)
+
         }catch (e: Exception){
             Toast.makeText(activity,"Error in payment: "+ e.message,Toast.LENGTH_LONG).show()
             e.printStackTrace()
