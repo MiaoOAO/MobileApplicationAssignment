@@ -60,7 +60,9 @@ class HomepageFragment : Fragment(), ListAdapter.OnItemClickListener {
 
         btnSearch.setOnClickListener{
             result = search.text.toString()
-            tvTitle.text = search.text
+            //tvTitle.text = search.text
+            fetchData(products)
+
         }
 
         pdbRef = FirebaseDatabase.getInstance().getReference("Product")
@@ -78,7 +80,7 @@ class HomepageFragment : Fragment(), ListAdapter.OnItemClickListener {
                 if(snapshot.exists()) {
                     for (personSnap in snapshot.children) {
                         val product = personSnap.getValue(Product::class.java)!!
-                        if (product.name.contains(result) == true) {
+                        if (product.name.contains(result)) {
                             productList.add(product)
                         }
                     }

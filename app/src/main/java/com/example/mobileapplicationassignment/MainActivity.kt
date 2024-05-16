@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -30,7 +31,8 @@ class MainActivity : AppCompatActivity() {
         var password:TextView = findViewById(R.id.enterPassword)
         var submit:Button = findViewById(R.id.loginBtn)
         var test:TextView = findViewById(R.id.textView)
-        var myViewModel = ViewModelProvider(this).get(ProductViewModel::class.java)
+        var btnR: ImageButton = findViewById(R.id.registerBtn)
+
 
         fRef = FirebaseDatabase.getInstance().getReference("User")
         fRef.child("2204107").child("Password").setValue("1234")
@@ -39,6 +41,13 @@ class MainActivity : AppCompatActivity() {
         fRef.child("2204107").child("Id").setValue("2204107")
         var product = Product("1","Gaming Chair",true,"condition 80% new, bought 2 months ago, TTracing brand",120,"gs://campus-marketplace-8cc1c.appspot.com/Product1.png")
         dbRef = FirebaseDatabase.getInstance().getReference("User")
+
+        btnR.setOnClickListener{
+            var intent = Intent(this,Register::class.java)
+            startActivity(intent)
+
+        }
+
         submit.setOnClickListener {
             val vUserId = userid.text.toString()
             val vPassword = password.text.toString()

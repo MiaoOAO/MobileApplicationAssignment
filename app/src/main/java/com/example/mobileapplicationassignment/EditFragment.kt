@@ -12,8 +12,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
@@ -41,7 +40,6 @@ class EditFragment : Fragment() {
     private lateinit var  galleryUri : Uri
     private lateinit var storageRef : StorageReference
     private lateinit var mImg:ImageView
-    private val args:EditFragmentArgs by navArgs()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,12 +61,25 @@ class EditFragment : Fragment() {
         var conPassword:TextView = view.findViewById(R.id.confirmPassword)
         var btnMod:Button = view.findViewById(R.id.btnModify)
         val id = arguments?.getString("id").toString()
+        var backButton = view.findViewById<FloatingActionButton>(R.id.EBackButton)
 
         storageRef = FirebaseStorage.getInstance().reference
         // Inflate the layout for this fragment
 
         mImg.setOnClickListener(){
             galleryLauncher.launch("image/*")
+        }
+
+        backButton.setOnClickListener{
+            val fragment = ProfileFragment()
+            val bundle = Bundle()
+            bundle.putString("id",id)
+            fragment.arguments = bundle
+            val transaction = activity?.supportFragmentManager?.beginTransaction()
+            transaction?.replace(R.id.fragmentContainerView, fragment)
+            transaction?.addToBackStack(null)
+            transaction?.commit()
+
         }
 
         dbRef = FirebaseDatabase.getInstance().getReference("User")
@@ -129,6 +140,9 @@ class EditFragment : Fragment() {
                         }
                     }
 
+            }else{
+
+                Toast.makeText(requireContext(), "Please don't leave out blank", Toast.LENGTH_LONG).show()
             }
 
 

@@ -15,6 +15,23 @@
             android:layout_width="match_parent"
             android:layout_height="560dp">
 
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/RBackButton"
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:layout_margin="24dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:src="@drawable/baseline_arrow_back_24"
+                android:tint="@android:color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
+
             <TextView
                 android:id="@+id/rTextView"
                 android:layout_width="wrap_content"
@@ -24,11 +41,10 @@
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.106"
+                app:layout_constraintHorizontal_bias="0.38"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.057" />
-
+                app:layout_constraintVertical_bias="0.076" />
 
             <EditText
                 android:id="@+id/rEditName"
@@ -64,14 +80,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="28dp"
+                android:background="@android:drawable/alert_light_frame"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.498"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/rTextView"
-                app:layout_constraintVertical_bias="0.053"
-                tools:src="@tools:sample/avatars"
-                android:background="@android:drawable/alert_light_frame"/>
+                app:layout_constraintVertical_bias="0.0"
+                tools:src="@tools:sample/avatars" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -125,10 +140,10 @@
                 app:layout_constraintTop_toBottomOf="@+id/rPassword" />
 
             <Button
-                android:id="@+id/btnModify"
+                android:id="@+id/btnRegister"
                 android:layout_width="312dp"
                 android:layout_height="wrap_content"
-                android:text="Modify"
+                android:text="Register"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/rConfirmPassword"
                 app:layout_constraintStart_toStartOf="@+id/rConfirmPassword"

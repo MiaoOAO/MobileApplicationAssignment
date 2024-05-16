@@ -162,18 +162,17 @@
             app:layout_constraintTop_toBottomOf="@+id/sellHistory"
             app:layout_constraintVertical_bias="0.076" />
 
-
-        <ImageView
+        <ImageButton
             android:id="@+id/expandBtnH"
-            android:layout_width="158dp"
-            android:layout_height="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="208dp"
             android:src="@drawable/baseline_arrow_drop_down_24"
             app:layout_constraintBottom_toBottomOf="@+id/history"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.935"
             app:layout_constraintStart_toEndOf="@+id/history"
-            app:layout_constraintTop_toTopOf="@+id/history"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintTop_toTopOf="@+id/history" />
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -240,18 +239,6 @@
             app:layout_constraintVertical_bias="0.142" />
 
         <ImageView
-            android:id="@+id/expandBtnP"
-            android:layout_width="158dp"
-            android:layout_height="20dp"
-            android:src="@drawable/baseline_arrow_drop_down_24"
-            app:layout_constraintBottom_toBottomOf="@+id/storeText"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.935"
-            app:layout_constraintStart_toEndOf="@+id/storeText"
-            app:layout_constraintTop_toTopOf="@+id/storeText"
-            app:layout_constraintVertical_bias="0.0" />
-
-        <ImageView
             android:id="@+id/imageView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -259,6 +246,16 @@
             app:layout_constraintBottom_toBottomOf="@+id/storeText"
             app:layout_constraintEnd_toStartOf="@+id/storeText"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/storeText" />
+
+        <ImageButton
+            android:id="@+id/expandBtnP"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="188dp"
+            android:src="@drawable/baseline_arrow_drop_down_24"
+            app:layout_constraintBottom_toBottomOf="@+id/storeText"
+            app:layout_constraintStart_toEndOf="@+id/storeText"
             app:layout_constraintTop_toTopOf="@+id/storeText" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 

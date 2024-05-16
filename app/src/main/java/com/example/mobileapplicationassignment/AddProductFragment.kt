@@ -83,7 +83,7 @@ class AddProductFragment : Fragment() {
                         imgRef.downloadUrl.addOnSuccessListener { uri ->
                             val rands = (0..1000).random()
                             var pId = rands
-                            val product = Product(pId.toString(), aName.text.toString(), true, aDesc.text.toString(), aPrice.text.toString().toInt() ,uri.toString())
+                            val product = Product(pId.toString(), aName.text.toString(), true, aDesc.text.toString(), aPrice.text.toString().toInt() ,uri.toString(),id)
                             //user side
                             dbRef.child(id).child("Product").child(pId.toString()).setValue(product)
                             //product side

@@ -35,6 +35,7 @@ class ProfileFragment : Fragment() {
     private var param2: String? = null
     private lateinit var dbRef : DatabaseReference
     private lateinit var pdbRef : DatabaseReference
+    private lateinit var cdbRef:DatabaseReference
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -73,7 +74,7 @@ class ProfileFragment : Fragment() {
         val id = arguments?.getString("id").toString()
         dbRef = FirebaseDatabase.getInstance().getReference("User")
         pdbRef = FirebaseDatabase.getInstance().getReference("Product")
-
+        cdbRef = FirebaseDatabase.getInstance().getReference("Cart")
 
 //        var product = Product("1","Gaming Chair",true,"condition 80% new, bought 2 months ago, TTracing brand",120,"gs://campus-marketplace-8cc1c.appspot.com/Product1.png")
 //        dbRef.child(id).child("Product").child(product.id).setValue(product)
@@ -151,6 +152,7 @@ class ProfileFragment : Fragment() {
 
         logOutBtn.setOnClickListener{
             //myViewModel.clearId()
+            cdbRef.removeValue()
             var go = Intent(requireContext(),MainActivity::class.java)
             startActivity(go)
 
