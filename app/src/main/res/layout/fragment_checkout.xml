@@ -27,38 +27,50 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.096"
-        tools:listitem="@layout/checkout_view_holder"/>
+        tools:listitem="@layout/checkout_view_holder" />
 
     <TextView
         android:id="@+id/checkoutAmt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="72dp"
         android:text="checkoutAmt"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.951"
+        app:layout_constraintHorizontal_bias="0.914"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/CheckoutRecyclerView" />
 
     <Button
         android:id="@+id/payBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="228dp"
-        android:text="PayBtn"
+        android:layout_width="117dp"
+        android:layout_height="62dp"
+        android:layout_marginTop="340dp"
+        android:background="#58d858"
+        android:text="Pay"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.781"
+        app:layout_constraintHorizontal_bias="0.996"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/checkoutAmt" />
+        app:layout_constraintTop_toBottomOf="@+id/CheckoutRecyclerView" />
 
     <Button
         android:id="@+id/cancelPayBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="68dp"
-        android:text="cancelPayBtn"
+        android:layout_marginEnd="184dp"
+        android:text="Cancel"
         app:layout_constraintBottom_toBottomOf="@+id/payBtn"
         app:layout_constraintEnd_toStartOf="@+id/payBtn"
         app:layout_constraintTop_toTopOf="@+id/payBtn"
         app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="12dp"
+        android:text="RM : "
+        app:layout_constraintBottom_toBottomOf="@+id/checkoutAmt"
+        app:layout_constraintEnd_toStartOf="@+id/checkoutAmt"
+        app:layout_constraintTop_toTopOf="@+id/checkoutAmt" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

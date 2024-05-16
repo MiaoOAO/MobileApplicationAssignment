@@ -71,14 +71,14 @@ class CheckoutFragment : Fragment(), PaymentResultWithDataListener, ExternalWall
         // apart from setting it in AndroidManifest.xml, keyId can also be set
         // programmatically during runtime
 
-        paymentBtn.setOnClickListener{
-            makePayment()
-        }
-
 
         dbRef = FirebaseDatabase.getInstance().getReference("User").child(id)
 
         fetchData(recyclerView, totalAmount)
+
+        paymentBtn.setOnClickListener{
+            makePayment()
+        }
 
         return view
     }
@@ -122,21 +122,18 @@ class CheckoutFragment : Fragment(), PaymentResultWithDataListener, ExternalWall
 //
 //        Checkout.preload(requireContext())
         val co = Checkout()
-        var amount = 100000
-        // apart from setting it in AndroidManifest.xml, keyId can also be set
-        // programmatically during runtime
-        //co.setKeyID("rzp_test_VfADYqBJCpWTs9")
+        var amount = totalPrice
+
 
         try {
             val options = JSONObject()
-            options.put("name","HAHAHA Corp")
-            options.put("description","Demoing Charges EEEEEE")
+            options.put("name","GIVEMEYOURMONEY Corp")
+            options.put("description","USE FOR FUN")
             //You can omit the image option to fetch the image from the dashboard
-            options.put("image","http://example.com/image/rzp.jpg")
-            options.put("theme.color", "#3399cc");
+            options.put("image","https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTL2TXx6URQL59L3PE-LgjB2wfACAyOMmnUwKBfE2zgPQ&s")
+            options.put("theme.color", "#ff9900");
             options.put("currency","MYR");
-            options.put("order_id", "order_DBJOWzybf0sJbb");
-            options.put("amount",10000*5)//pass amount in currency subunits
+            options.put("amount",amount*100)//pass amount in currency subunits
 
             val retryObj = JSONObject()
             retryObj.put("enabled", true);
@@ -144,8 +141,8 @@ class CheckoutFragment : Fragment(), PaymentResultWithDataListener, ExternalWall
             options.put("retry", retryObj);
 
             val prefill = JSONObject()
-            prefill.put("email","gaurav.kumar@example.com")
-            prefill.put("contact","9876543210888")
+            prefill.put("email","1@MARKETPLACE.com")
+            prefill.put("contact","01234567888")
 
             options.put("prefill",prefill)
             co.open(activity,options)
@@ -157,7 +154,7 @@ class CheckoutFragment : Fragment(), PaymentResultWithDataListener, ExternalWall
     }
 
     override fun onPaymentSuccess(p0: String?, p1: PaymentData?) {
-        TODO("Not yet implemented")
+
     }
 
     override fun onPaymentError(p0: Int, p1: String?, p2: PaymentData?) {

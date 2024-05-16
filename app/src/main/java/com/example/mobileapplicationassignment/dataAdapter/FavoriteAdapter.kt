@@ -18,7 +18,7 @@ class FavoriteAdapter(private val productList: List<Product>):RecyclerView.Adapt
         val fName : TextView = itemView.findViewById(R.id.FavProductName)
         val fPrice: TextView = itemView.findViewById(R.id.FavProductPrice)
         val fImage: ImageView =itemView.findViewById(R.id.FavProductImg)
-        val button: Button = itemView.findViewById(R.id.FavDelete)
+        val button: ImageView = itemView.findViewById(R.id.FavDelete)
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoriteViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.favorite_view_holder, parent, false )

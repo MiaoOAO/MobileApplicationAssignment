@@ -3,7 +3,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@drawable/customborder">
+
+    <ImageView
+        android:id="@+id/FavDelete"
+        android:layout_width="34dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="228dp"
+        android:layout_marginTop="84dp"
+        app:layout_constraintStart_toEndOf="@+id/FavProductImg"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/baseline_delete_24"/>
 
     <ImageView
         android:id="@+id/FavProductImg"
@@ -31,19 +42,18 @@
         android:id="@+id/FavProductPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="56dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="48dp"
         android:text="Price"
-        app:layout_constraintStart_toStartOf="@+id/FavProductName"
+        app:layout_constraintStart_toEndOf="@+id/textView4"
         app:layout_constraintTop_toBottomOf="@+id/FavProductName" />
 
-    <Button
-        android:id="@+id/FavDelete"
+    <TextView
+        android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="152dp"
-        android:text="Button"
-        app:layout_constraintBottom_toBottomOf="@+id/FavProductPrice"
-        app:layout_constraintStart_toEndOf="@+id/FavProductPrice"
-        app:layout_constraintTop_toTopOf="@+id/FavProductPrice"
-        app:layout_constraintVertical_bias="0.896" />
+        android:layout_marginStart="4dp"
+        android:text="RM"
+        app:layout_constraintStart_toStartOf="@+id/FavProductName"
+        app:layout_constraintTop_toTopOf="@+id/FavProductPrice" />
 </androidx.constraintlayout.widget.ConstraintLayout>

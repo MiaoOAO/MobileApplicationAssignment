@@ -18,8 +18,8 @@ class CartAdapter(private val productList: List<Product>, private val listener: 
         val cName : TextView = itemView.findViewById(R.id.CartProductName)
         val cPrice: TextView = itemView.findViewById(R.id.CartProductPrice)
         val cImage: ImageView =itemView.findViewById(R.id.CartProductImg)
-        val delCartButton: Button = itemView.findViewById(R.id.deleteCart)
-        val favSetButton: Button = itemView.findViewById(R.id.setFav)
+        val delCartButton: ImageView = itemView.findViewById(R.id.deleteCart)
+//        val favSetButton: Button = itemView.findViewById(R.id.setFav)
 
         init {
             delCartButton.setOnClickListener {
