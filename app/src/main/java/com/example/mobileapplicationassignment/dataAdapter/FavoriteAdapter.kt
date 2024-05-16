@@ -12,28 +12,28 @@ import com.example.mobileapplicationassignment.R
 import com.example.mobileapplicationassignment.data.Product
 import com.google.firebase.storage.FirebaseStorage
 
-class CheckoutAdapter(private val productList: List<Product>) : RecyclerView.Adapter<CheckoutAdapter.CheckoutViewHolder>(){
+class FavoriteAdapter(private val productList: List<Product>):RecyclerView.Adapter<FavoriteAdapter.FavoriteViewHolder>() {
 
-    class CheckoutViewHolder (itemView : View) : RecyclerView.ViewHolder(itemView){
-        val CoName : TextView = itemView.findViewById(R.id.checkoutProductName)
-        val CoPrice: TextView = itemView.findViewById(R.id.checkoutProductPrice)
-        val CoImage: ImageView =itemView.findViewById(R.id.checkoutProductImg)
+    class FavoriteViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView){
+        val fName : TextView = itemView.findViewById(R.id.FavProductName)
+        val fPrice: TextView = itemView.findViewById(R.id.FavProductPrice)
+        val fImage: ImageView =itemView.findViewById(R.id.FavProductImg)
+        val button: Button = itemView.findViewById(R.id.FavDelete)
+    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoriteViewHolder {
+        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.favorite_view_holder, parent, false )
+
+        return FavoriteViewHolder(itemView)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CheckoutViewHolder {
-        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.checkout_view_holder, parent, false )
-
-        return CheckoutViewHolder(itemView)
-    }
-
-    override fun onBindViewHolder(holder: CheckoutViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: FavoriteViewHolder, position: Int) {
         val currentItem = productList[position]
         if (currentItem.image.isNotEmpty()) {
             var imgRef = FirebaseStorage.getInstance().getReferenceFromUrl(currentItem.image)
             //holder.cName.id = currentItem.id
-            holder.CoName.text = currentItem.name
+            holder.fName.text = currentItem.name
             //holder.vDesc.text = currentItem.description
-            holder.CoPrice.text = currentItem.price.toString()
+            holder.fPrice.text = currentItem.price.toString()
 //            if(currentItem.status == true){
 //                holder.vStatus.text = "Unsold"
 //            }else{
@@ -45,7 +45,7 @@ class CheckoutAdapter(private val productList: List<Product>) : RecyclerView.Ada
                     // Convert the bytes to a Bitmap
                     val bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
                     // Display the Bitmap in an ImageView
-                    holder.CoImage.setImageBitmap(bitmap)
+                    holder.fImage.setImageBitmap(bitmap)
                 }
         }
     }
@@ -53,5 +53,4 @@ class CheckoutAdapter(private val productList: List<Product>) : RecyclerView.Ada
     override fun getItemCount(): Int {
         return productList.size
     }
-
 }
