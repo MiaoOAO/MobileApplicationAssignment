@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav"
-    app:startDestination="@id/shoppingCartFragment">
+    app:startDestination="@id/homepageFragment">
 
     <fragment
         android:id="@+id/profileFragment"
@@ -55,9 +55,9 @@
         android:name="com.example.mobileapplicationassignment.EditFragment"
         android:label="fragment_edit"
         tools:layout="@layout/fragment_edit" >
-        <argument
-            android:name="id"
-            app:argType="string" />
+<!--        <argument-->
+<!--            android:name="id"-->
+<!--            app:argType="string" />-->
         <action
             android:id="@+id/action_editFragment_to_profileFragment"
             app:destination="@id/profileFragment" />
@@ -67,4 +67,9 @@
         android:name="com.example.mobileapplicationassignment.ShoppingCartFragment"
         android:label="fragment_shopping_cart"
         tools:layout="@layout/fragment_shopping_cart" />
+    <fragment
+        android:id="@+id/homepageFragment"
+        android:name="com.example.mobileapplicationassignment.HomepageFragment"
+        android:label="fragment_homepage"
+        tools:layout="@layout/fragment_homepage" />
 </navigation>
