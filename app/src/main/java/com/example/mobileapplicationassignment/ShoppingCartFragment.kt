@@ -118,7 +118,7 @@ class ShoppingCartFragment : Fragment(), CartAdapter.ButtonClickListener {
 
     override fun onButtonClick(position: Int) {
         val aProduct = productList[position]
-        dbRef.child("Product").child(aProduct.id).removeValue()
+       // dbRef.child("Product").child(aProduct.id).removeValue()
         // Handle button click for the item at the given position
     }
 
