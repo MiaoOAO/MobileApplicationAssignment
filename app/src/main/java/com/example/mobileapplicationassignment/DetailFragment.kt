@@ -46,7 +46,8 @@ class DetailFragment : Fragment() {
     private lateinit var cdbRef : DatabaseReference
     private var productList: ArrayList<Product> = arrayListOf()
     private lateinit var product: Product
-    private var isFavourite: Boolean = false
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,7 +72,7 @@ class DetailFragment : Fragment() {
         var productStatus: TextView = view.findViewById(R.id.productStatus)
         var productId = arguments?.getString("productId").toString()
         var userId = arguments?.getString("id").toString()
-
+        var isFavourite:Boolean = false
 
         // Inflate the layout for this fragment
         cdbRef = FirebaseDatabase.getInstance().getReference("Cart")
@@ -130,9 +131,30 @@ class DetailFragment : Fragment() {
                     Toast.makeText(requireContext(), "Product is failed to add to cart", Toast.LENGTH_LONG).show()
                 }
         }
+        dbRef.addListenerForSingleValueEvent(object: ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if(snapshot.child("Favourite").exists()){
+                    for (snap in snapshot.child("Favourite").children){
+                        var favourite = snap.getValue(Product::class.java)!!
+                        if(favourite.id == productId){
+                            isFavourite = true
+                            detailFavourite.setImageResource(R.drawable.baseline_favorite_24)
 
+                        }
+                    }
+
+                }else{
+                    isFavourite = false
+                    detailFavourite.setImageResource(R.drawable.baseline_favorite_24)
+                }
+            }
+            override fun onCancelled(error: DatabaseError) {
+                Toast.makeText(requireContext(), "Error: $error", Toast.LENGTH_LONG).show()
+            }
+
+        })
         detailFavourite.setOnClickListener{
-            isFavourite = !isFavourite
+
             if(isFavourite){
                 detailFavourite.setImageResource(R.drawable.baseline_favorite_border_24)
                 dbRef.child("Favourite").child(productId).removeValue()
@@ -142,6 +164,7 @@ class DetailFragment : Fragment() {
                     .addOnFailureListener{
                         Toast.makeText(requireContext(), "Failed to remove seller from favorites", Toast.LENGTH_LONG).show()
                     }
+                isFavourite = !isFavourite
             }else{
                 detailFavourite.setImageResource(R.drawable.baseline_favorite_24)
                 pdbRef.addListenerForSingleValueEvent(object: ValueEventListener {
@@ -151,8 +174,8 @@ class DetailFragment : Fragment() {
                     override fun onCancelled(error: DatabaseError) {
                         Toast.makeText(requireContext(), "Error: $error", Toast.LENGTH_LONG).show()
                     }
+
                 })
-                var start:Boolean = false
                 dbRef.child("Favourite").child(productId).setValue(product)
                     .addOnSuccessListener {
                         Toast.makeText(requireContext(), "Seller is added to favourite successful", Toast.LENGTH_LONG).show()
@@ -161,32 +184,14 @@ class DetailFragment : Fragment() {
                     .addOnFailureListener{
                         Toast.makeText(requireContext(), "Seller is failed to add to favourite", Toast.LENGTH_LONG).show()
                     }
+                isFavourite = !isFavourite
             }
 
 
 
         }
-        dbRef.addListenerForSingleValueEvent(object: ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                for(snap in snapshot.child("Favourite").children){
-                    if(snap.exists()){
-                        product = snap.child(productId).getValue(Product::class.java)!!
-                        if(product.id == productId){
-                            isFavourite = true
-                        }
-                    }
-                }
 
-            }
-            override fun onCancelled(error: DatabaseError) {
-                Toast.makeText(requireContext(), "Error: $error", Toast.LENGTH_LONG).show()
-            }
-        })
-        if(isFavourite) {
-            detailFavourite.setImageResource(R.drawable.baseline_favorite_24)
-        }else{
-            detailFavourite.setImageResource((R.drawable.baseline_favorite_border_24))
-        }
+
 
         backButton.setOnClickListener{
             val fragment = HomepageFragment()
@@ -199,6 +204,7 @@ class DetailFragment : Fragment() {
             transaction?.commit()
 
         }
+
         return view
     }
 

@@ -99,6 +99,7 @@ class HomepageFragment : Fragment(), ListAdapter.OnItemClickListener {
 
     override fun itemClick(position: Int) {
         val aProduct = productList[position]
+
         val fragment = DetailFragment()
         val bundle = Bundle()
         bundle.putString("id", id)

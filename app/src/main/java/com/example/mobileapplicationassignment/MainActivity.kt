@@ -4,6 +4,7 @@ import android.content.Intent
 import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.ContactsContract.Data
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
@@ -23,6 +24,7 @@ import java.io.File
 class MainActivity : AppCompatActivity() {
     private lateinit var dbRef : DatabaseReference
     private lateinit var fRef : DatabaseReference
+    private lateinit var cdbRef:DatabaseReference
     private lateinit var imgRef: StorageReference
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,8 +34,8 @@ class MainActivity : AppCompatActivity() {
         var submit:Button = findViewById(R.id.loginBtn)
         var test:TextView = findViewById(R.id.textView)
         var btnR: ImageButton = findViewById(R.id.registerBtn)
-
-
+        cdbRef = FirebaseDatabase.getInstance().getReference("Cart")
+        cdbRef.removeValue()
         fRef = FirebaseDatabase.getInstance().getReference("User")
         fRef.child("2204107").child("password").setValue("1234")
         fRef.child("2204107").child("name").setValue("Wong Cheng Yi")

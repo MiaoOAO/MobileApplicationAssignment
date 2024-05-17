@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -18,7 +19,7 @@ class CartAdapter(private val productList: List<Product>, private val listener: 
         val cName : TextView = itemView.findViewById(R.id.CartProductName)
         val cPrice: TextView = itemView.findViewById(R.id.CartProductPrice)
         val cImage: ImageView =itemView.findViewById(R.id.CartProductImg)
-        val delCartButton: ImageView = itemView.findViewById(R.id.deleteCart)
+        val delCartButton: ImageButton = itemView.findViewById(R.id.delelteCart)
 //        val favSetButton: Button = itemView.findViewById(R.id.setFav)
 
         init {

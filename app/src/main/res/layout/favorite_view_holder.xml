@@ -7,16 +7,6 @@
     android:background="@drawable/customborder">
 
     <ImageView
-        android:id="@+id/FavDelete"
-        android:layout_width="34dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="228dp"
-        android:layout_marginTop="84dp"
-        app:layout_constraintStart_toEndOf="@+id/FavProductImg"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/baseline_delete_24"/>
-
-    <ImageView
         android:id="@+id/FavProductImg"
         android:layout_width="104dp"
         android:layout_height="124dp"
@@ -67,4 +57,14 @@
         app:layout_constraintStart_toEndOf="@+id/FavProductName"
         app:layout_constraintTop_toTopOf="@+id/FavProductName"
         app:layout_constraintVertical_bias="0.0" />
+
+    <ImageButton
+        android:id="@+id/FavDelete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="220dp"
+        android:layout_marginTop="88dp"
+        app:layout_constraintStart_toEndOf="@+id/FavProductImg"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/baseline_delete_24" />
 </androidx.constraintlayout.widget.ConstraintLayout>
