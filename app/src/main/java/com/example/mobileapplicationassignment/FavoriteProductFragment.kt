@@ -26,7 +26,7 @@ private const val ARG_PARAM2 = "param2"
  * Use the [FavoriteProductFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class FavoriteProductFragment : Fragment() {
+class FavoriteProductFragment : Fragment(),FavoriteAdapter.ButtonClickListener {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -72,18 +72,18 @@ class FavoriteProductFragment : Fragment() {
     }
 
     private fun fetchData(recyclerView: RecyclerView){
-
         productList = arrayListOf()
         dbRef.addValueEventListener(object: ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 productList.clear()
                 if(snapshot.exists()) {
-                    for (personSnap in snapshot.child("Product").children) {
+                    for (personSnap in snapshot.child("Favourite").children) {
                         val product = personSnap.getValue(Product::class.java)
                         productList.add(product!!)
                     }
+
                 }
-                recyclerView.adapter = FavoriteAdapter(productList)
+                recyclerView.adapter = FavoriteAdapter(productList,this@FavoriteProductFragment)
                 recyclerView.layoutManager = LinearLayoutManager(requireContext())
                 recyclerView.setHasFixedSize(true)
             }
@@ -91,6 +91,11 @@ class FavoriteProductFragment : Fragment() {
                 Toast.makeText(requireContext(), "Error: $error", Toast.LENGTH_LONG).show()
             }
         })
+    }
+
+    override fun onButtonClick(position: Int) {
+        val aProduct = productList[position]
+        dbRef.child("Favourite").child(aProduct.id).removeValue()
     }
 
 }

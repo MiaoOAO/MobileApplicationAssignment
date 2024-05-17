@@ -77,8 +77,8 @@
 
             <ImageView
                 android:id="@+id/rImgPhoto"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
                 android:layout_marginTop="28dp"
                 android:background="@android:drawable/alert_light_frame"
                 app:layout_constraintBottom_toBottomOf="parent"

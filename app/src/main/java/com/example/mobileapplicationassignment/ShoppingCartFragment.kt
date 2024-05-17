@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.mobileapplicationassignment.data.Product
 import com.example.mobileapplicationassignment.dataAdapter.CartAdapter
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.firebase.auth.FirebaseAuth
+
 import com.google.firebase.auth.FirebaseAuthException
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -39,8 +39,7 @@ class ShoppingCartFragment : Fragment(), CartAdapter.ButtonClickListener {
     private var param2: String? = null
     private lateinit var productList: ArrayList<Product>
     private lateinit var dbRef : DatabaseReference
-    private lateinit var firebaseAuth : FirebaseAuth
-    private var productId = ""
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,7 +61,7 @@ class ShoppingCartFragment : Fragment(), CartAdapter.ButtonClickListener {
 //        var setFav: Button = view.findViewById(R.id.setFav)
         // Create a storage reference from our app
         val id = arguments?.getString("id").toString()
-        dbRef = FirebaseDatabase.getInstance().getReference("User").child(id)
+        dbRef = FirebaseDatabase.getInstance().getReference("Cart")
         //val person = Person("P002", "Yashiro", "gs://fir-622cc.appspot.com/myImg/Yashiro.png")
 
         fetchData(recyclerView)
@@ -100,9 +99,10 @@ class ShoppingCartFragment : Fragment(), CartAdapter.ButtonClickListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 productList.clear()
                 if(snapshot.exists()) {
-                    for (personSnap in snapshot.child("Product").children) {
+                    for (personSnap in snapshot.children) {
                         val product = personSnap.getValue(Product::class.java)
                         productList.add(product!!)
+
                     }
                 }
 
@@ -119,6 +119,7 @@ class ShoppingCartFragment : Fragment(), CartAdapter.ButtonClickListener {
     override fun onButtonClick(position: Int) {
         val aProduct = productList[position]
        // dbRef.child("Product").child(aProduct.id).removeValue()
+        dbRef.child("Cart").child(aProduct.id).removeValue()
         // Handle button click for the item at the given position
     }
 

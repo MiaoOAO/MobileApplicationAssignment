@@ -61,7 +61,7 @@ class MainActivity : AppCompatActivity() {
                         if (vPassword == storedPassword) {
                             // Login successful
 
-                            test.text = vUserId
+
                             Toast.makeText(this@MainActivity, "Valid", Toast.LENGTH_LONG).show()
                             var intent = Intent(this@MainActivity,MainMenu::class.java)
                             intent.putExtra("Id", vUserId)

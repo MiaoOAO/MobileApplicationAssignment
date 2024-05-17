@@ -12,13 +12,22 @@ import com.example.mobileapplicationassignment.R
 import com.example.mobileapplicationassignment.data.Product
 import com.google.firebase.storage.FirebaseStorage
 
-class FavoriteAdapter(private val productList: List<Product>):RecyclerView.Adapter<FavoriteAdapter.FavoriteViewHolder>() {
+class FavoriteAdapter(private val productList: List<Product>,private val listener: ButtonClickListener):RecyclerView.Adapter<FavoriteAdapter.FavoriteViewHolder>() {
 
-    class FavoriteViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView){
+    inner class FavoriteViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView){
         val fName : TextView = itemView.findViewById(R.id.FavProductName)
         val fPrice: TextView = itemView.findViewById(R.id.FavProductPrice)
         val fImage: ImageView =itemView.findViewById(R.id.FavProductImg)
         val button: ImageView = itemView.findViewById(R.id.FavDelete)
+        val status:TextView = itemView.findViewById(R.id.favouriteStatus)
+        init {
+            button.setOnClickListener {
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    listener.onButtonClick(position)
+                }
+            }
+        }
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoriteViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.favorite_view_holder, parent, false )
@@ -34,11 +43,11 @@ class FavoriteAdapter(private val productList: List<Product>):RecyclerView.Adapt
             holder.fName.text = currentItem.name
             //holder.vDesc.text = currentItem.description
             holder.fPrice.text = currentItem.price.toString()
-//            if(currentItem.status == true){
-//                holder.vStatus.text = "Unsold"
-//            }else{
-//                holder.vStatus.text = "Sold"
-//            }
+            if(currentItem.status == true){
+                holder.status.text = "Unsold"
+            }else{
+                holder.status.text = "Sold"
+            }
             val ONE_MEGABYTE: Long = 1024 * 1024
             imgRef.getBytes(ONE_MEGABYTE)
                 .addOnSuccessListener { bytes ->
@@ -52,5 +61,8 @@ class FavoriteAdapter(private val productList: List<Product>):RecyclerView.Adapt
 
     override fun getItemCount(): Int {
         return productList.size
+    }
+    interface ButtonClickListener {
+        fun onButtonClick(position: Int)
     }
 }

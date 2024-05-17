@@ -44,8 +44,11 @@ class CheckoutFragment : Fragment(), PaymentResultWithDataListener, ExternalWall
     private var param1: String? = null
     private var param2: String? = null
     private lateinit var productList: ArrayList<Product>
+    private var cartList:ArrayList<Product> =arrayListOf()
     private lateinit var dbRef : DatabaseReference
+    private lateinit var cdbRef : DatabaseReference
     private var totalPrice = 0.0
+    private lateinit var id:String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,7 +68,7 @@ class CheckoutFragment : Fragment(), PaymentResultWithDataListener, ExternalWall
         var totalAmount: TextView = view.findViewById(R.id.checkoutAmt)
         var paymentBtn: Button = view.findViewById(R.id.payBtn)
 
-        val id = arguments?.getString("id").toString()
+        id = arguments?.getString("id").toString()
         Checkout.preload(requireContext())
         val co = Checkout()
         // apart from setting it in AndroidManifest.xml, keyId can also be set
@@ -73,6 +76,7 @@ class CheckoutFragment : Fragment(), PaymentResultWithDataListener, ExternalWall
 
 
         dbRef = FirebaseDatabase.getInstance().getReference("User").child(id)
+        cdbRef = FirebaseDatabase.getInstance().getReference("User")
 
         fetchData(recyclerView, totalAmount)
 
@@ -89,11 +93,12 @@ class CheckoutFragment : Fragment(), PaymentResultWithDataListener, ExternalWall
         dbRef.addValueEventListener(object: ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 productList.clear()
-
+                cartList.clear()
                 if(snapshot.exists()) {
                     for (personSnap in snapshot.child("Product").children) {
                         val product = personSnap.getValue(Product::class.java)
                         productList.add(product!!)
+                        cartList.add(product)
                     }
                     for (product in productList) {
                         totalPrice += product.price.toDouble()  // Convert price to Double for sum
@@ -154,6 +159,45 @@ class CheckoutFragment : Fragment(), PaymentResultWithDataListener, ExternalWall
     }
 
     override fun onPaymentSuccess(p0: String?, p1: PaymentData?) {
+
+
+        cdbRef.addValueEventListener(object: ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if(snapshot.exists()) {
+                    for (personSnap in snapshot.children) {
+                        for (favourite in personSnap.child("Favourite").children) {
+                            val product = favourite.getValue(Product::class.java)!!
+                            for(cart in cartList){
+                                if(cart.id == product.id){
+                                    cdbRef.child(cart.owner).child("Favourite").child(cart.id).child("status").setValue(false)
+                                }
+                            }
+                        }
+                        for(cart in cartList) {
+                            if (cart.owner == personSnap.child("Id").getValue()) {
+                                cdbRef.child(cart.owner).child("Selling").child(cart.id).setValue(cart)
+                                cdbRef.child(cart.owner).child("Product").child(cart.id).child("status").setValue(false)
+                            }
+                        }
+
+                    }
+
+
+                }
+            }
+            override fun onCancelled(error: DatabaseError) {
+                Toast.makeText(requireContext(), "Error: $error", Toast.LENGTH_LONG).show()
+            }
+        })
+        val fragment = ProfileFragment()
+        val bundle = Bundle()
+        bundle.putString("id",id)
+        fragment.arguments = bundle
+        val transaction = activity?.supportFragmentManager?.beginTransaction()
+        transaction?.replace(R.id.fragmentContainerView, fragment)
+        transaction?.addToBackStack(null)
+        transaction?.commit()
+
 
     }
 

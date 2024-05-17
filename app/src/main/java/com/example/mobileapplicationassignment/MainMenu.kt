@@ -36,7 +36,12 @@ class MainMenu : AppCompatActivity() {
 
 
         val id = intent.getStringExtra("Id").toString()
+        val fragment = HomepageFragment()
+        val bundle = Bundle()
+        bundle.putString("id",id)
+        fragment.arguments = bundle
 
+        replaceFragment(fragment)
 
 
         myToolbar = findViewById(R.id.myToolbar)

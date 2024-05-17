@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -58,10 +59,10 @@ class ProfileFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         var view = inflater.inflate(R.layout.fragment_profile, container, false)
-        var exBtn: ImageView = view.findViewById(R.id.expandBtnP)
+        var exBtn: ImageButton = view.findViewById(R.id.expandBtnP)
         var addPBtn: TextView = view.findViewById(R.id.addProduct)
         var viewPBtn: TextView = view.findViewById(R.id.viewProduct)
-        var exBtnH: ImageView = view.findViewById(R.id.expandBtnH)
+        var exBtnH: ImageButton = view.findViewById(R.id.expandBtnH)
         var viewPurchase:TextView = view.findViewById(R.id.myPurchList)
         var viewSell:TextView = view.findViewById(R.id.sellHistory)
         var logOutBtn:Button = view.findViewById(R.id.logOutBtn)

@@ -36,6 +36,7 @@ class HomepageFragment : Fragment(), ListAdapter.OnItemClickListener {
     private lateinit var pdbRef : DatabaseReference
     private lateinit var productList: ArrayList<Product>
     private var result: String = ""
+    private lateinit var id:String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,6 +56,7 @@ class HomepageFragment : Fragment(), ListAdapter.OnItemClickListener {
         var search: TextView = view.findViewById(R.id.search)
         var btnSearch: ImageButton = view.findViewById(R.id.btnSearch)
         var products: RecyclerView = view.findViewById(R.id.products)
+        id = arguments?.getString("id").toString()
 
 
 
@@ -98,7 +100,14 @@ class HomepageFragment : Fragment(), ListAdapter.OnItemClickListener {
     }
 
     override fun itemClick(position: Int) {
-        TODO("Not yet implemented")
+        val fragment = DetailFragment()
+        val bundle = Bundle()
+        bundle.putString("id", id)
+        fragment.arguments = bundle
+        val transaction = activity?.supportFragmentManager?.beginTransaction()
+        transaction?.replace(R.id.fragmentContainerView, fragment)
+        transaction?.addToBackStack(null)
+        transaction?.commit()
     }
 
 }

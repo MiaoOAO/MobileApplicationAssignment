@@ -62,6 +62,7 @@ class Register : AppCompatActivity() {
                         // Get download URL
                         imgRef.downloadUrl.addOnSuccessListener { uri ->
                             var id = rId.toString()
+                            dbRef.child(id).child("Id").setValue(id)
                             dbRef.child(id).child("Password").setValue(rP)
                             dbRef.child(id).child("Name").setValue(rName.text.toString())
                             dbRef.child(id).child("ProfileImage").setValue(uri.toString())
@@ -94,7 +95,7 @@ class Register : AppCompatActivity() {
 
     }
     private val galleryLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) {
-        if (it!! != null) {
+        if (it!!.toString().isNotEmpty()) {
             try {
                 galleryUri = it!!
                 rImg.setImageURI(galleryUri)

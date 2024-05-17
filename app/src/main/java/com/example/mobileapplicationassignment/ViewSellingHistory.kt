@@ -76,7 +76,7 @@ class ViewSellingHistory : Fragment() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 productList.clear()
                 if(snapshot.exists()) {
-                    for (personSnap in snapshot.child("Purchase").children) {
+                    for (personSnap in snapshot.child("Selling").children) {
                         val product = personSnap.getValue(Product::class.java)
                         productList.add(product!!)
                     }

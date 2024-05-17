@@ -56,4 +56,15 @@
         android:text="RM"
         app:layout_constraintStart_toStartOf="@+id/FavProductName"
         app:layout_constraintTop_toTopOf="@+id/FavProductPrice" />
+
+    <TextView
+        android:id="@+id/favouriteStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="80dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toBottomOf="@+id/FavProductName"
+        app:layout_constraintStart_toEndOf="@+id/FavProductName"
+        app:layout_constraintTop_toTopOf="@+id/FavProductName"
+        app:layout_constraintVertical_bias="0.0" />
 </androidx.constraintlayout.widget.ConstraintLayout>
