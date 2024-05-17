@@ -2,4 +2,6 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="payment_green_dark">#38B34A</color>
+    <color name="payment_green_light">#7CFC00</color>
 </resources>

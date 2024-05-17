@@ -1,19 +1,17 @@
 package com.example.mobileapplicationassignment
 
-import android.app.Activity
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mobileapplicationassignment.data.Product
-import com.example.mobileapplicationassignment.dataAdapter.CartAdapter
 import com.example.mobileapplicationassignment.dataAdapter.CheckoutAdapter
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -23,60 +21,34 @@ import com.google.firebase.database.ValueEventListener
 import com.razorpay.Checkout
 import com.razorpay.ExternalWalletListener
 import com.razorpay.PaymentData
-import com.razorpay.PaymentResultListener
 import com.razorpay.PaymentResultWithDataListener
 import org.json.JSONObject
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [CheckoutFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-
-//co.setKeyID("rzp_test_VfADYqBJCpWTs9")
-
-class CheckoutFragment : Fragment(), PaymentResultWithDataListener, ExternalWalletListener, PaymentResultListener {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+class CheckoutActivity : AppCompatActivity(), PaymentResultWithDataListener, ExternalWalletListener {
     private lateinit var productList: ArrayList<Product>
     private var cartList:ArrayList<Product> =arrayListOf()
     private lateinit var dbRef : DatabaseReference
     private lateinit var cdbRef : DatabaseReference
     private var totalPrice = 0.0
     private lateinit var id:String
-    lateinit var paymentBtn:Button
+    lateinit var paymentBtn: Button
+    lateinit var successBtn: Button
     lateinit var recyclerView: RecyclerView
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+        setContentView(R.layout.activity_checkout)
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        var view = inflater.inflate(R.layout.fragment_checkout, container, false)
-        recyclerView = view.findViewById(R.id.CheckoutRecyclerView)
-        var totalAmount: TextView = view.findViewById(R.id.checkoutAmt)
-        paymentBtn = view.findViewById(R.id.payBtn)
+        recyclerView = findViewById(R.id.ACheckoutRecyclerView)
+        var totalAmount: TextView = findViewById(R.id.checkoutAmount)
+        paymentBtn = findViewById(R.id.activityPayBtn)
+        successBtn = findViewById(R.id.successBtn)
+        successBtn.visibility = View.GONE
 
-        id = arguments?.getString("id").toString()
-        Checkout.preload(requireContext())
+        id = intent.getStringExtra("Id").toString()
+
+//        id = arguments?.getString("id").toString()
+        Checkout.preload(this)
         val co = Checkout()
-        // apart from setting it in AndroidManifest.xml, keyId can also be set
-        // programmatically during runtime
-
 
         dbRef = FirebaseDatabase.getInstance().getReference("User").child(id)
         cdbRef = FirebaseDatabase.getInstance().getReference("User")
@@ -87,7 +59,6 @@ class CheckoutFragment : Fragment(), PaymentResultWithDataListener, ExternalWall
             makePayment()
         }
 
-        return view
     }
 
     private fun fetchData(recyclerView: RecyclerView, totalAmountText: TextView){
@@ -113,22 +84,18 @@ class CheckoutFragment : Fragment(), PaymentResultWithDataListener, ExternalWall
 
 
                 recyclerView.adapter = CheckoutAdapter(productList)
-                recyclerView.layoutManager = LinearLayoutManager(requireContext())
+                recyclerView.layoutManager = LinearLayoutManager(this@CheckoutActivity)
                 recyclerView.setHasFixedSize(true)
             }
             override fun onCancelled(error: DatabaseError) {
-                Toast.makeText(requireContext(), "Error: $error", Toast.LENGTH_LONG).show()
+                Toast.makeText(this@CheckoutActivity, "Error: $error", Toast.LENGTH_LONG).show()
             }
         })
     }
 
     private fun makePayment(){
-        /*
-       *  You need to pass the current activity to let Razorpay create CheckoutActivity
-       * */
-        val activity: FragmentActivity = requireActivity()
-//
-        Checkout.preload(requireContext())
+
+//        Checkout.preload(requireContext())
         val co = Checkout()
         var amount = totalPrice
 
@@ -141,7 +108,7 @@ class CheckoutFragment : Fragment(), PaymentResultWithDataListener, ExternalWall
             options.put("image","https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTL2TXx6URQL59L3PE-LgjB2wfACAyOMmnUwKBfE2zgPQ&s")
             options.put("theme.color", "#ff9900");
             options.put("currency","MYR");
-            options.put("amount",amount*100)//pass amount in currency subunits
+            options.put("amount",1000)//pass amount in currency subunits
 
             val retryObj = JSONObject()
             retryObj.put("enabled", true);
@@ -153,37 +120,49 @@ class CheckoutFragment : Fragment(), PaymentResultWithDataListener, ExternalWall
             prefill.put("contact","01234567888")
 
             options.put("prefill",prefill)
-            co.open(activity,options)
+            co.open(this,options)
 
         }catch (e: Exception){
-            Toast.makeText(activity,"Error in payment: "+ e.message,Toast.LENGTH_LONG).show()
+            Toast.makeText(this,"Error in payment: "+ e.message,Toast.LENGTH_LONG).show()
             e.printStackTrace()
         }
     }
 
-    override fun onPaymentSuccess(p0: String?, p1: PaymentData?) {
+    private fun replaceFragment(fragment: Fragment){
+        if(fragment != null){
+            val transaction = supportFragmentManager.beginTransaction()
+            transaction.replace(R.id.fragmentContainerView, fragment)
+            transaction.addToBackStack(null)
+            transaction.commit()
+        }
+    }
 
-        Toast.makeText(requireContext(), "Payment successful $p0", Toast.LENGTH_LONG).show()
+    override fun onPaymentSuccess(p0: String?, p1: PaymentData?) {
+        Toast.makeText(this, "Payment successful $p0", Toast.LENGTH_LONG).show()
 
         paymentBtn.visibility = View.GONE
         recyclerView.visibility = View.GONE
+        successBtn.visibility = View.VISIBLE
 
         cdbRef.addValueEventListener(object: ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                if(snapshot.exists()) {
+                if (snapshot.exists()) {
                     for (personSnap in snapshot.children) {
                         for (favourite in personSnap.child("Favourite").children) {
                             val product = favourite.getValue(Product::class.java)!!
-                            for(cart in cartList){
-                                if(cart.id == product.id){
-                                    cdbRef.child(cart.owner).child("Favourite").child(cart.id).child("status").setValue(false)
+                            for (cart in cartList) {
+                                if (cart.id == product.id) {
+                                    cdbRef.child(cart.owner).child("Favourite").child(cart.id)
+                                        .child("status").setValue(false)
                                 }
                             }
                         }
-                        for(cart in cartList) {
+                        for (cart in cartList) {
                             if (cart.owner == personSnap.child("Id").getValue()) {
-                                cdbRef.child(cart.owner).child("Selling").child(cart.id).setValue(cart)
-                                cdbRef.child(cart.owner).child("Product").child(cart.id).child("status").setValue(false)
+                                cdbRef.child(cart.owner).child("Selling").child(cart.id)
+                                    .setValue(cart)
+                                cdbRef.child(cart.owner).child("Product").child(cart.id)
+                                    .child("status").setValue(false)
                             }
                         }
 
@@ -192,19 +171,20 @@ class CheckoutFragment : Fragment(), PaymentResultWithDataListener, ExternalWall
 
                 }
             }
-            override fun onCancelled(error: DatabaseError) {
-                Toast.makeText(requireContext(), "Error: $error", Toast.LENGTH_LONG).show()
-            }
-        })
 
-        val fragment = ProfileFragment()
-        val bundle = Bundle()
-        bundle.putString("id",id)
-        fragment.arguments = bundle
-        val transaction = activity?.supportFragmentManager?.beginTransaction()
-        transaction?.replace(R.id.fragmentContainerView, fragment)
-        transaction?.addToBackStack(null)
-        transaction?.commit()
+            override fun onCancelled(error: DatabaseError) {
+                Toast.makeText(this@CheckoutActivity, "Error: $error", Toast.LENGTH_LONG).show()
+            }
+    })
+
+        successBtn.setOnClickListener{
+            val fragment = ViewPurchaseHistory()
+            val bundle = Bundle()
+            bundle.putString("id",id)
+            fragment.arguments = bundle
+
+            replaceFragment(fragment)
+        }
 
 
     }
@@ -216,17 +196,4 @@ class CheckoutFragment : Fragment(), PaymentResultWithDataListener, ExternalWall
     override fun onExternalWalletSelected(p0: String?, p1: PaymentData?) {
         TODO("Not yet implemented")
     }
-
-    override fun onPaymentSuccess(p0: String?) {
-        Toast.makeText(requireContext(), "Payment successful $p0", Toast.LENGTH_LONG).show()
-
-        paymentBtn.visibility = View.GONE
-        recyclerView.visibility = View.GONE
-    }
-
-    override fun onPaymentError(p0: Int, p1: String?) {
-        TODO("Not yet implemented")
-    }
-
-
 }

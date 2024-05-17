@@ -1,5 +1,6 @@
 package com.example.mobileapplicationassignment
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -66,16 +67,24 @@ class ShoppingCartFragment : Fragment(), CartAdapter.ButtonClickListener {
 
         fetchData(recyclerView)
 
-        checkout.setOnClickListener{
-            val fragment = CheckoutFragment()
-            val bundle = Bundle()
-            bundle.putString("id",id)
-            fragment.arguments = bundle
-            val transaction = activity?.supportFragmentManager?.beginTransaction()
-            transaction?.replace(R.id.fragmentContainerView, fragment)
-            transaction?.addToBackStack(null)
-            transaction?.commit()
+        checkout.setOnClickListener {
+            val intent = Intent(requireActivity(), CheckoutActivity::class.java)
+            intent.putExtra("id", id) // Pass user ID to CheckoutActivity
+            context?.startActivity(intent)
         }
+
+//
+//        checkout.setOnClickListener{
+//            val fragment = CheckoutFragment()
+//            val bundle = Bundle()
+//            bundle.putString("id",id)
+//            fragment.arguments = bundle
+//            val transaction = activity?.supportFragmentManager?.beginTransaction()
+//            transaction?.replace(R.id.fragmentContainerView, fragment)
+//            transaction?.addToBackStack(null)
+//            transaction?.commit()
+//
+//        }
 
 //        setFav.setOnClickListener {
 //            if (firebaseAuth.currentUser == null) {
