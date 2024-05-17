@@ -162,9 +162,9 @@ class ProfileFragment : Fragment() {
         dbRef.addValueEventListener(object: ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if(snapshot.exists()) {
-                    var imgP = snapshot.child(id).child("ProfileImage").getValue()
+                    var imgP = snapshot.child(id).child("profileImage").getValue()
                     var img = imgP.toString()
-                    var stuId = snapshot.child(id).child("Name").getValue()
+                    var stuId = snapshot.child(id).child("name").getValue()
                     var imgRef = FirebaseStorage.getInstance().getReferenceFromUrl(img)
                     val ONE_MEGABYTE: Long = 1024 * 1024
                     imgRef.getBytes(ONE_MEGABYTE)

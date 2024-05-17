@@ -47,7 +47,7 @@
                 app:layout_constraintVertical_bias="0.076" />
 
             <EditText
-                android:id="@+id/rEditName"
+                android:id="@+id/rEditId"
                 android:layout_width="363dp"
                 android:layout_height="59dp"
                 android:layout_marginTop="80dp"
@@ -62,7 +62,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/rImgPhoto" />
 
             <EditText
-                android:id="@+id/rEditId"
+                android:id="@+id/rEditName"
                 android:layout_width="363dp"
                 android:layout_height="59dp"
                 android:background="#F1F1F1"
@@ -71,9 +71,9 @@
                 android:inputType="text"
                 android:paddingLeft="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/rEditName"
-                app:layout_constraintStart_toStartOf="@+id/rEditName"
-                app:layout_constraintTop_toBottomOf="@+id/rEditName" />
+                app:layout_constraintEnd_toEndOf="@+id/rEditId"
+                app:layout_constraintStart_toStartOf="@+id/rEditId"
+                app:layout_constraintTop_toBottomOf="@+id/rEditId" />
 
             <ImageView
                 android:id="@+id/rImgPhoto"
