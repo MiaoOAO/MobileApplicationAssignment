@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/customborder"
     tools:context=".CheckoutActivity">
 
     <TextView
@@ -13,11 +14,12 @@
         android:layout_marginTop="20dp"
         android:layout_marginEnd="16dp"
         android:text="checkoutAmt"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ACheckoutRecyclerView" />
 
     <TextView
-        android:id="@+id/textView6"
+        android:id="@+id/checkOutTitle"
         android:layout_width="110dp"
         android:layout_height="38dp"
         android:layout_marginStart="16dp"
@@ -42,8 +44,8 @@
         android:id="@+id/activityPayBtn"
         android:layout_width="107dp"
         android:layout_height="62dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="36dp"
+        android:layout_marginEnd="44dp"
+        android:layout_marginBottom="16dp"
         android:text="Pay"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -52,12 +54,13 @@
         android:id="@+id/successBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Payment successful"
+        android:text="OK"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.563" />
+        app:layout_constraintVertical_bias="0.759" />
 
     <Button
         android:id="@+id/aCancelBtn"
@@ -70,4 +73,74 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/activityPayBtn"
         app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/successMsg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Payment Successful"
+        android:textColor="#49CC4E"
+        android:textSize="35dp"
+        app:layout_constraintBottom_toTopOf="@+id/successBtn"
+        app:layout_constraintEnd_toEndOf="@+id/successBtn"
+        app:layout_constraintStart_toStartOf="@+id/successBtn"
+        app:layout_constraintTop_toBottomOf="@+id/ACheckoutRecyclerView"
+        app:layout_constraintVertical_bias="0.301" />
+
+    <TextView
+        android:id="@+id/pOrderId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="TextView"
+        android:textSize="20dp"
+        app:layout_constraintStart_toStartOf="@+id/successMsg"
+        app:layout_constraintTop_toBottomOf="@+id/successMsg" />
+
+    <EditText
+        android:id="@+id/phoneNoInput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:inputType="number"
+        app:layout_constraintEnd_toEndOf="@+id/EmailInput"
+        app:layout_constraintTop_toBottomOf="@+id/EmailInput" />
+
+    <TextView
+        android:id="@+id/EmailMsg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:text="Email : "
+        android:textSize="18dp"
+        app:layout_constraintBottom_toBottomOf="@+id/EmailInput"
+        app:layout_constraintEnd_toStartOf="@+id/EmailInput"
+        app:layout_constraintTop_toTopOf="@+id/EmailInput"
+        app:layout_constraintVertical_bias="0.523" />
+
+    <TextView
+        android:id="@+id/phoneNoMsg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:text="Phone Number : "
+        android:textSize="18dp"
+        app:layout_constraintBottom_toBottomOf="@+id/phoneNoInput"
+        app:layout_constraintEnd_toStartOf="@+id/phoneNoInput"
+        app:layout_constraintTop_toTopOf="@+id/phoneNoInput"
+        app:layout_constraintVertical_bias="0.523" />
+
+    <EditText
+        android:id="@+id/EmailInput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:ems="10"
+        android:inputType="textEmailAddress"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ACheckoutRecyclerView"
+        app:layout_constraintVertical_bias="0.365" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

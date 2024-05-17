@@ -9,30 +9,35 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/CartRecycleView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginStart="1dp"
-        android:layout_marginTop="1dp"
-        android:layout_marginEnd="1dp"
-        android:layout_marginBottom="1dp"
+        android:layout_width="415dp"
+        android:layout_height="565dp"
+        android:layout_marginBottom="118dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
         tools:listitem="@layout/cart_view_holder" />
 
     <Button
         android:id="@+id/CheckoutBtn"
         android:layout_width="138dp"
         android:layout_height="61dp"
+        android:layout_marginEnd="28dp"
+        android:layout_marginBottom="36dp"
         android:text="Check Out"
         android:textColor="@android:color/white"
-        app:layout_constraintBottom_toBottomOf="@+id/CartRecycleView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.945"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="264dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="4dp"
+        android:text="Shopping Cart"
+        android:textSize="30dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/CartRecycleView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.928" />
+        app:layout_constraintVertical_bias="0.0" />
 </androidx.constraintlayout.widget.ConstraintLayout>

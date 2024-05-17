@@ -7,10 +7,23 @@
     android:layout_height="match_parent"
     tools:context=".FavoriteProductFragment">
 
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="264dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="16dp"
+        android:text="Favorite Product"
+        android:textSize="30dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/FavRecycleView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/FavRecycleView"
-        android:layout_width="409dp"
-        android:layout_height="729dp"
+        android:layout_width="410dp"
+        android:layout_height="617dp"
         android:layout_marginStart="1dp"
         android:layout_marginTop="1dp"
         android:layout_marginEnd="1dp"

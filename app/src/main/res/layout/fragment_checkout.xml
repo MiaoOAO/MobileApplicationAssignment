@@ -8,7 +8,7 @@
     tools:context=".CheckoutFragment">
 
     <TextView
-        android:id="@+id/textView6"
+        android:id="@+id/checkOutTitle"
         android:layout_width="110dp"
         android:layout_height="38dp"
         android:text="Checkout"

@@ -37,6 +37,14 @@ class CheckoutActivity : AppCompatActivity(), PaymentResultWithDataListener, Ext
     lateinit var successBtn: Button
     lateinit var recyclerView: RecyclerView
     lateinit var cancelBtn : Button
+    lateinit var orderPayId : TextView
+    lateinit var titleName : TextView
+    lateinit var successMsg : TextView
+    lateinit var email : TextView
+    lateinit var phoneNo : TextView
+    lateinit var emailMsg : TextView
+    lateinit var phoneNoMsg : TextView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_checkout)
@@ -46,21 +54,29 @@ class CheckoutActivity : AppCompatActivity(), PaymentResultWithDataListener, Ext
         cancelBtn = findViewById(R.id.aCancelBtn)
         paymentBtn = findViewById(R.id.activityPayBtn)
         successBtn = findViewById(R.id.successBtn)
+        orderPayId = findViewById(R.id.pOrderId)
+        successMsg = findViewById(R.id.successMsg)
+        titleName = findViewById(R.id.checkOutTitle)
+        email = findViewById(R.id.EmailInput)
+        phoneNo = findViewById(R.id.phoneNoInput)
+        emailMsg = findViewById(R.id.EmailMsg)
+        phoneNoMsg = findViewById(R.id.phoneNoMsg)
+
+        orderPayId.visibility = View.GONE
+        successMsg.visibility = View.GONE
         successBtn.visibility = View.GONE
 
-        id = intent.getStringExtra("Id").toString()
+        id = intent.getStringExtra("id").toString()
 
 //        id = arguments?.getString("id").toString()
         Checkout.preload(this)
         val co = Checkout()
 
         cancelBtn.setOnClickListener{
-            val fragment = ShoppingCartFragment()
-            val bundle = Bundle()
-//            bundle.putString("id",id)
-            fragment.arguments = bundle
-
-            replaceFragment(fragment)
+            var intent = Intent(this,MainMenu::class.java)
+            intent.putExtra("Fragment", "ShoppingCart") // or any identifier for the fragment
+            intent.putExtra("Id", id)
+            startActivity(intent)
         }
 
         dbRef = FirebaseDatabase.getInstance().getReference("User").child(id)
@@ -128,8 +144,8 @@ class CheckoutActivity : AppCompatActivity(), PaymentResultWithDataListener, Ext
             options.put("retry", retryObj);
 
             val prefill = JSONObject()
-            prefill.put("email","1@MARKETPLACE.com")
-            prefill.put("contact","01234567888")
+            prefill.put("email",email.text)
+            prefill.put("contact",phoneNo.text)
 
             options.put("prefill",prefill)
             co.open(this,options)
@@ -140,22 +156,26 @@ class CheckoutActivity : AppCompatActivity(), PaymentResultWithDataListener, Ext
         }
     }
 
-    private fun replaceFragment(fragment: Fragment){
-        if(fragment != null){
-            val transaction = supportFragmentManager.beginTransaction()
-            transaction.replace(R.id.fragmentContainerView, fragment)
-            transaction.addToBackStack(null)
-            transaction.commit()
-        }
-    }
 
     override fun onPaymentSuccess(p0: String?, p1: PaymentData?) {
         Toast.makeText(this, "Payment successful $p0", Toast.LENGTH_LONG).show()
 
+
         paymentBtn.visibility = View.GONE
         recyclerView.visibility = View.GONE
         cancelBtn.visibility = View.GONE
+        titleName.visibility = View.GONE
+        email.visibility = View.GONE
+        phoneNo.visibility = View.GONE
+        emailMsg.visibility = View.GONE
+        phoneNoMsg.visibility = View.GONE
+
         successBtn.visibility = View.VISIBLE
+        orderPayId.visibility = View.VISIBLE
+        successMsg.visibility = View.VISIBLE
+
+        orderPayId.text = "ORDER ID : $p0"
+
         cdbRef.addValueEventListener(object: ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()) {
@@ -199,7 +219,28 @@ class CheckoutActivity : AppCompatActivity(), PaymentResultWithDataListener, Ext
     }
 
     override fun onPaymentError(p0: Int, p1: String?, p2: PaymentData?) {
-        TODO("Not yet implemented")
+        Toast.makeText(this, "Payment Failed $p0", Toast.LENGTH_LONG).show()
+
+        paymentBtn.visibility = View.GONE
+        recyclerView.visibility = View.GONE
+        cancelBtn.visibility = View.GONE
+        titleName.visibility = View.GONE
+        email.visibility = View.GONE
+        phoneNo.visibility = View.GONE
+        emailMsg.visibility = View.GONE
+        phoneNoMsg.visibility = View.GONE
+
+        successBtn.visibility = View.VISIBLE
+        orderPayId.visibility = View.VISIBLE
+
+        orderPayId.text = "PAYMENT UNSUCCESS, PLEASE TRY AGAIN!"
+
+        successBtn.setOnClickListener{
+            var intent = Intent(this,MainMenu::class.java)
+            intent.putExtra("Fragment", "ShoppingCart") // or any identifier for the fragment
+            intent.putExtra("Id", id)
+            startActivity(intent)
+        }
     }
 
     override fun onExternalWalletSelected(p0: String?, p1: PaymentData?) {
