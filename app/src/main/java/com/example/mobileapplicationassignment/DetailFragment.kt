@@ -11,14 +11,14 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import com.example.mobileapplicationassignment.dataAdapter.VPAdapter
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mobileapplicationassignment.data.Product
 import com.example.mobileapplicationassignment.data.User
 import com.example.mobileapplicationassignment.dataAdapter.ListAdapter
-import com.example.mobileapplicationassignment.dataAdapter.VPAdapter
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
@@ -46,6 +46,7 @@ class DetailFragment : Fragment() {
     private lateinit var cdbRef : DatabaseReference
     private var productList: ArrayList<Product> = arrayListOf()
     private lateinit var product: Product
+    private var isFavourite: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,6 +71,8 @@ class DetailFragment : Fragment() {
         var productStatus: TextView = view.findViewById(R.id.productStatus)
         var productId = arguments?.getString("productId").toString()
         var userId = arguments?.getString("id").toString()
+
+
         // Inflate the layout for this fragment
         cdbRef = FirebaseDatabase.getInstance().getReference("Cart")
         pdbRef = FirebaseDatabase.getInstance().getReference("Product")
@@ -103,8 +106,6 @@ class DetailFragment : Fragment() {
         })
 
         detailAddToCart.setOnClickListener{
-
-
             pdbRef.addListenerForSingleValueEvent(object: ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     product = snapshot.child(productId).getValue(Product::class.java)!!
@@ -131,27 +132,60 @@ class DetailFragment : Fragment() {
         }
 
         detailFavourite.setOnClickListener{
+            isFavourite = !isFavourite
+            if(isFavourite){
+                detailFavourite.setImageResource(R.drawable.baseline_favorite_border_24)
+                dbRef.child("Favourite").child(productId).removeValue()
+                    .addOnSuccessListener {
+                        Toast.makeText(requireContext(), "Seller is removed from favorites", Toast.LENGTH_LONG).show()
+                    }
+                    .addOnFailureListener{
+                        Toast.makeText(requireContext(), "Failed to remove seller from favorites", Toast.LENGTH_LONG).show()
+                    }
+            }else{
+                detailFavourite.setImageResource(R.drawable.baseline_favorite_24)
+                pdbRef.addListenerForSingleValueEvent(object: ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        product = snapshot.child(productId).getValue(Product::class.java)!!
+                    }
+                    override fun onCancelled(error: DatabaseError) {
+                        Toast.makeText(requireContext(), "Error: $error", Toast.LENGTH_LONG).show()
+                    }
+                })
+                var start:Boolean = false
+                dbRef.child("Favourite").child(productId).setValue(product)
+                    .addOnSuccessListener {
+                        Toast.makeText(requireContext(), "Seller is added to favourite successful", Toast.LENGTH_LONG).show()
 
-            pdbRef.addListenerForSingleValueEvent(object: ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    product = snapshot.child(productId).getValue(Product::class.java)!!
+                    }
+                    .addOnFailureListener{
+                        Toast.makeText(requireContext(), "Seller is failed to add to favourite", Toast.LENGTH_LONG).show()
+                    }
+            }
 
+
+
+        }
+        dbRef.addListenerForSingleValueEvent(object: ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                for(snap in snapshot.child("Favourite").children){
+                    if(snap.exists()){
+                        product = snap.child(productId).getValue(Product::class.java)!!
+                        if(product.id == productId){
+                            isFavourite = true
+                        }
+                    }
                 }
-                override fun onCancelled(error: DatabaseError) {
-                    Toast.makeText(requireContext(), "Error: $error", Toast.LENGTH_LONG).show()
-                }
-            })
-            var start:Boolean = false
-            dbRef.child("Favourite").child(productId).setValue(product)
-                .addOnSuccessListener {
-                    Toast.makeText(requireContext(), "Seller is added to favourite successful", Toast.LENGTH_LONG).show()
 
-                }
-                .addOnFailureListener{
-                    Toast.makeText(requireContext(), "Seller is failed to add to favourite", Toast.LENGTH_LONG).show()
-                }
-
-
+            }
+            override fun onCancelled(error: DatabaseError) {
+                Toast.makeText(requireContext(), "Error: $error", Toast.LENGTH_LONG).show()
+            }
+        })
+        if(isFavourite) {
+            detailFavourite.setImageResource(R.drawable.baseline_favorite_24)
+        }else{
+            detailFavourite.setImageResource((R.drawable.baseline_favorite_border_24))
         }
 
         backButton.setOnClickListener{
