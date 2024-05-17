@@ -12,8 +12,10 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.mobileapplicationassignment.data.User
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import java.util.UUID
@@ -34,11 +36,12 @@ class Register : AppCompatActivity() {
         }
         var backButton = findViewById<FloatingActionButton>(R.id.RBackButton)
         var rId: TextView = findViewById(R.id.rEditId)
-        var rName: TextView = findViewById((R.id.rEditId))
+        var rName: TextView = findViewById(R.id.rEditName)
         var rPassword: TextView = findViewById(R.id.rPassword)
         var conPassword: TextView = findViewById(R.id.rConfirmPassword)
         var btnR: Button = findViewById(R.id.btnRegister)
         rImg = findViewById(R.id.rImgPhoto)
+        dbRef = FirebaseDatabase.getInstance().getReference("User")
         storageRef = FirebaseStorage.getInstance().reference
 
         rImg.setOnClickListener(){
@@ -61,11 +64,9 @@ class Register : AppCompatActivity() {
                     .addOnSuccessListener { taskSnapshot ->
                         // Get download URL
                         imgRef.downloadUrl.addOnSuccessListener { uri ->
-                            var id = rId.toString()
-                            dbRef.child(id).child("Id").setValue(id)
-                            dbRef.child(id).child("Password").setValue(rP)
-                            dbRef.child(id).child("Name").setValue(rName.text.toString())
-                            dbRef.child(id).child("ProfileImage").setValue(uri.toString())
+                            var id = rId.text.toString()
+                            var user = User(id,rName.text.toString(),rP,uri.toString())
+                            dbRef.child(id).setValue(user)
                                 .addOnSuccessListener {
                                     Toast.makeText(this, "register successful", Toast.LENGTH_LONG).show()
                                     var intent = Intent(this,MainActivity::class.java)
