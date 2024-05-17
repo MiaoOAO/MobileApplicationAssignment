@@ -29,6 +29,7 @@ class CheckoutActivity : AppCompatActivity(), PaymentResultWithDataListener, Ext
     private var cartList:ArrayList<Product> =arrayListOf()
     private lateinit var dbRef : DatabaseReference
     private lateinit var cdbRef : DatabaseReference
+    private lateinit var pdbRef:  DatabaseReference
     private var totalPrice = 0.0
     private lateinit var id:String
     lateinit var paymentBtn: Button
@@ -52,6 +53,7 @@ class CheckoutActivity : AppCompatActivity(), PaymentResultWithDataListener, Ext
 
         dbRef = FirebaseDatabase.getInstance().getReference("User").child(id)
         cdbRef = FirebaseDatabase.getInstance().getReference("User")
+        pdbRef = FirebaseDatabase.getInstance().getReference("Product")
 
         fetchData(recyclerView, totalAmount)
 
@@ -143,7 +145,7 @@ class CheckoutActivity : AppCompatActivity(), PaymentResultWithDataListener, Ext
         paymentBtn.visibility = View.GONE
         recyclerView.visibility = View.GONE
         successBtn.visibility = View.VISIBLE
-
+        pdbRef.child("")
         cdbRef.addValueEventListener(object: ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()) {
@@ -152,8 +154,8 @@ class CheckoutActivity : AppCompatActivity(), PaymentResultWithDataListener, Ext
                             val product = favourite.getValue(Product::class.java)!!
                             for (cart in cartList) {
                                 if (cart.id == product.id) {
-                                    cdbRef.child(cart.owner).child("Favourite").child(cart.id)
-                                        .child("status").setValue(false)
+                                    cdbRef.child(cart.owner).child("Favourite").child(cart.id).child("status").setValue(false)
+                                    pdbRef.child(cart.id).removeValue()
                                 }
                             }
                         }
