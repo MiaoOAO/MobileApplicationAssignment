@@ -58,7 +58,7 @@ class VPAdapter(private val productList: List<Product>, private val listener: Bu
             }else{
                 holder.vStatus.text = "Sold"
             }
-            val ONE_MEGABYTE: Long = 1024 * 1024
+            val ONE_MEGABYTE: Long = 5120 * 5120
             imgRef.getBytes(ONE_MEGABYTE)
                 .addOnSuccessListener { bytes ->
                     // Convert the bytes to a Bitmap

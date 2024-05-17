@@ -166,7 +166,7 @@ class ProfileFragment : Fragment() {
                     var img = imgP.toString()
                     var stuId = snapshot.child(id).child("name").getValue()
                     var imgRef = FirebaseStorage.getInstance().getReferenceFromUrl(img)
-                    val ONE_MEGABYTE: Long = 1024 * 1024
+                    val ONE_MEGABYTE: Long = 5120 * 5120
                     imgRef.getBytes(ONE_MEGABYTE)
                         .addOnSuccessListener { bytes ->
                             // Convert the bytes to a Bitmap

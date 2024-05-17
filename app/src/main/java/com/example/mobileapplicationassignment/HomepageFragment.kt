@@ -58,8 +58,6 @@ class HomepageFragment : Fragment(), ListAdapter.OnItemClickListener {
         var products: RecyclerView = view.findViewById(R.id.products)
         id = arguments?.getString("id").toString()
 
-
-
         btnSearch.setOnClickListener{
             result = search.text.toString()
             //tvTitle.text = search.text
@@ -100,9 +98,11 @@ class HomepageFragment : Fragment(), ListAdapter.OnItemClickListener {
     }
 
     override fun itemClick(position: Int) {
+        val aProduct = productList[position]
         val fragment = DetailFragment()
         val bundle = Bundle()
         bundle.putString("id", id)
+        bundle.putString("productId", aProduct.id)
         fragment.arguments = bundle
         val transaction = activity?.supportFragmentManager?.beginTransaction()
         transaction?.replace(R.id.fragmentContainerView, fragment)

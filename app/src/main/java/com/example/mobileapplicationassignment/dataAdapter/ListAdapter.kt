@@ -46,7 +46,7 @@ class ListAdapter(private val personList: List<Product>, private val listener: O
             var imgRef = FirebaseStorage.getInstance().getReferenceFromUrl(currentItem.image)
             holder.productName.text = currentItem.name
             holder.productPrice.text = currentItem.price.toString()
-            val ONE_MEGABYTE: Long = 1024 * 1024
+            val ONE_MEGABYTE: Long = 5120 * 5120
             imgRef.getBytes(ONE_MEGABYTE)
                 .addOnSuccessListener { bytes ->
                     // Convert the bytes to a Bitmap

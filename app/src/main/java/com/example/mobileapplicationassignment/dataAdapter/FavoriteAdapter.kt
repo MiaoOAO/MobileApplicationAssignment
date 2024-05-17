@@ -48,7 +48,7 @@ class FavoriteAdapter(private val productList: List<Product>,private val listene
             }else{
                 holder.status.text = "Sold"
             }
-            val ONE_MEGABYTE: Long = 1024 * 1024
+            val ONE_MEGABYTE: Long = 5120 * 5120
             imgRef.getBytes(ONE_MEGABYTE)
                 .addOnSuccessListener { bytes ->
                     // Convert the bytes to a Bitmap
