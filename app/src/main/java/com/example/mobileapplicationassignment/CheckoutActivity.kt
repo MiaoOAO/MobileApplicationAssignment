@@ -67,6 +67,7 @@ class CheckoutActivity : AppCompatActivity(), PaymentResultWithDataListener, Ext
         successBtn.visibility = View.GONE
 
         id = intent.getStringExtra("id").toString()
+        cartList.clear()
 
 //        id = arguments?.getString("id").toString()
         Checkout.preload(this)
@@ -97,10 +98,12 @@ class CheckoutActivity : AppCompatActivity(), PaymentResultWithDataListener, Ext
         dbRef.addValueEventListener(object: ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 productList.clear()
+
                 if(snapshot.exists()) {
                     for (personSnap in snapshot.children) {
                         val product = personSnap.getValue(Product::class.java)
                         productList.add(product!!)
+                        cartList.add(product!!)
 
                     }
                     for (product in productList) {
@@ -159,7 +162,7 @@ class CheckoutActivity : AppCompatActivity(), PaymentResultWithDataListener, Ext
 
     override fun onPaymentSuccess(p0: String?, p1: PaymentData?) {
         Toast.makeText(this, "Payment successful $p0", Toast.LENGTH_LONG).show()
-
+        cdbRef = FirebaseDatabase.getInstance().getReference("User")
 
         paymentBtn.visibility = View.GONE
         recyclerView.visibility = View.GONE
@@ -176,37 +179,42 @@ class CheckoutActivity : AppCompatActivity(), PaymentResultWithDataListener, Ext
 
         orderPayId.text = "ORDER ID : $p0"
 
-        cdbRef.addValueEventListener(object: ValueEventListener {
+        cdbRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()) {
                     for (personSnap in snapshot.children) {
-                        for (favourite in personSnap.child("Favourite").children) {
-                            val product = favourite.getValue(Product::class.java)!!
+                        val personId = personSnap.child("id").getValue(String::class.java)
+                        if (personId != null) {
+                            // Update Favourite items
+                            for (favouriteSnap in personSnap.child("Favourite").children) {
+                                val product = favouriteSnap.getValue(Product::class.java)
+                                if (product != null) {
+                                    for (cart in cartList) {
+                                        if (cart.id == product.id) {
+                                            cdbRef.child(cart.owner).child("Favourite").child(cart.id).child("status").setValue(false)
+                                            cdbRef.child(personId).child("Purchase").child(cart.id).setValue(cart)
+                                            pdbRef.child(cart.id).removeValue()
+                                        }
+                                    }
+                                }
+                            }
+
+                            // Update Selling and Product status
                             for (cart in cartList) {
-                                if (cart.id == product.id) {
-                                    cdbRef.child(cart.owner).child("Favourite").child(cart.id).child("status").setValue(false)
-                                    cdbRef.child(id).child("Purchase").child(cart.id).setValue(false)
-                                    pdbRef.child(cart.id).removeValue()
+                                if (cart.owner == personId) {
+                                    cdbRef.child(cart.owner).child("Selling").child(cart.id).setValue(cart)
+                                    cdbRef.child(cart.owner).child("Product").child(cart.id).child("status").setValue(false)
                                 }
                             }
                         }
-                        for (cart in cartList) {
-                            if (cart.owner == personSnap.child("Id").getValue()) {
-                                cdbRef.child(cart.owner).child("Selling").child(cart.id).setValue(cart)
-                                cdbRef.child(cart.owner).child("Product").child(cart.id).child("status").setValue(false)
-                            }
-                        }
-
                     }
-
-
                 }
             }
 
             override fun onCancelled(error: DatabaseError) {
-                Toast.makeText(this@CheckoutActivity, "Error: $error", Toast.LENGTH_LONG).show()
+                Toast.makeText(this@CheckoutActivity, "Error: ${error.message}", Toast.LENGTH_LONG).show()
             }
-    })
+        })
 
         successBtn.setOnClickListener{
             var intent = Intent(this,MainMenu::class.java)

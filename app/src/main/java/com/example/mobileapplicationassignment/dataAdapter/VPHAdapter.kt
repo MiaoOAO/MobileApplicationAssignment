@@ -15,12 +15,11 @@ import com.google.firebase.storage.FirebaseStorage
 class VPHAdapter (private val productList: List<Product>) : RecyclerView.Adapter <VPHAdapter.MyViewHolder>(){
 
     class MyViewHolder (itemView: View): RecyclerView.ViewHolder(itemView){
-        val vName : TextView = itemView.findViewById(R.id.vPName)
-        val vImage: ImageView = itemView.findViewById(R.id.vPPhoto)
-        val vId : TextView = itemView.findViewById(R.id.vPId)
-        val vDesc: TextView = itemView.findViewById(R.id.vPDescription)
-        val vPrice: TextView = itemView.findViewById(R.id.vPPrice)
-        val vStatus: TextView = itemView.findViewById(R.id.vPStatus)
+        val vName : TextView = itemView.findViewById(R.id.vPHName)
+        val vImage: ImageView = itemView.findViewById(R.id.vPHPhoto)
+        val vId : TextView = itemView.findViewById(R.id.vPHId)
+        val vDesc: TextView = itemView.findViewById(R.id.vPHDescription)
+        val vPrice: TextView = itemView.findViewById(R.id.vPHPrice)
         init {
         }
 
@@ -45,11 +44,6 @@ class VPHAdapter (private val productList: List<Product>) : RecyclerView.Adapter
             holder.vName.text = currentItem.name
             holder.vDesc.text = currentItem.description
             holder.vPrice.text = currentItem.price.toString()
-            if(currentItem.status == true){
-                holder.vStatus.text = "Unsold"
-            }else{
-                holder.vStatus.text = "Sold"
-            }
             val ONE_MEGABYTE: Long = 1024 * 1024
             imgRef.getBytes(ONE_MEGABYTE)
                 .addOnSuccessListener { bytes ->

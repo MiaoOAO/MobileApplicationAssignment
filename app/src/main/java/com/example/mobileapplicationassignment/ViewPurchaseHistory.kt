@@ -55,7 +55,8 @@ class ViewPurchaseHistory : Fragment() {
         val id = arguments?.getString("id").toString()
         dbRef = FirebaseDatabase.getInstance().getReference("User").child(id)
         //val person = Person("P002", "Yashiro", "gs://fir-622cc.appspot.com/myImg/Yashiro.png")
-
+        //var product = Product("1","Gaming Chair",true,"condition 80% new, bought 2 months ago, TTracing brand",120,"gs://campus-marketplace-8cc1c.appspot.com/Product1.png","2204107")
+        //dbRef.child("Purchase").child("1").setValue(product)
         fetchData(recyclerView)
         backButton.setOnClickListener{
             val fragment = ProfileFragment()
