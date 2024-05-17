@@ -58,4 +58,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.563" />
+
+    <Button
+        android:id="@+id/aCancelBtn"
+        android:layout_width="97dp"
+        android:layout_height="58dp"
+        android:layout_marginEnd="128dp"
+        android:text="Cancel"
+        app:layout_constraintBottom_toBottomOf="@+id/activityPayBtn"
+        app:layout_constraintEnd_toStartOf="@+id/activityPayBtn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/activityPayBtn"
+        app:layout_constraintVertical_bias="0.0" />
 </androidx.constraintlayout.widget.ConstraintLayout>

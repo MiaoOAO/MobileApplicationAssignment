@@ -34,12 +34,14 @@ class CheckoutActivity : AppCompatActivity(), PaymentResultWithDataListener, Ext
     lateinit var paymentBtn: Button
     lateinit var successBtn: Button
     lateinit var recyclerView: RecyclerView
+    lateinit var cancelBtn : Button
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_checkout)
 
         recyclerView = findViewById(R.id.ACheckoutRecyclerView)
         var totalAmount: TextView = findViewById(R.id.checkoutAmount)
+        cancelBtn = findViewById(R.id.aCancelBtn)
         paymentBtn = findViewById(R.id.activityPayBtn)
         successBtn = findViewById(R.id.successBtn)
         successBtn.visibility = View.GONE
@@ -49,6 +51,15 @@ class CheckoutActivity : AppCompatActivity(), PaymentResultWithDataListener, Ext
 //        id = arguments?.getString("id").toString()
         Checkout.preload(this)
         val co = Checkout()
+
+        cancelBtn.setOnClickListener{
+            val fragment = ShoppingCartFragment()
+            val bundle = Bundle()
+//            bundle.putString("id",id)
+            fragment.arguments = bundle
+
+            replaceFragment(fragment)
+        }
 
         dbRef = FirebaseDatabase.getInstance().getReference("User").child(id)
         cdbRef = FirebaseDatabase.getInstance().getReference("User")
@@ -62,24 +73,22 @@ class CheckoutActivity : AppCompatActivity(), PaymentResultWithDataListener, Ext
     }
 
     private fun fetchData(recyclerView: RecyclerView, totalAmountText: TextView){
-
         productList = arrayListOf()
+        dbRef = FirebaseDatabase.getInstance().getReference("Cart")
         dbRef.addValueEventListener(object: ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 productList.clear()
-                cartList.clear()
                 if(snapshot.exists()) {
-                    for (personSnap in snapshot.child("Product").children) {
+                    for (personSnap in snapshot.children) {
                         val product = personSnap.getValue(Product::class.java)
                         productList.add(product!!)
-                        cartList.add(product)
+
                     }
                     for (product in productList) {
                         totalPrice += product.price.toDouble()  // Convert price to Double for sum
                     }
                     val totalAmount = "Total Amount: $${String.format("%.2f", totalPrice)}"
                     totalAmountText.text = totalAmount
-
                 }
 
 
@@ -108,7 +117,7 @@ class CheckoutActivity : AppCompatActivity(), PaymentResultWithDataListener, Ext
             options.put("image","https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTL2TXx6URQL59L3PE-LgjB2wfACAyOMmnUwKBfE2zgPQ&s")
             options.put("theme.color", "#ff9900");
             options.put("currency","MYR");
-            options.put("amount",1000)//pass amount in currency subunits
+            options.put("amount",amount*100)//pass amount in currency subunits
 
             val retryObj = JSONObject()
             retryObj.put("enabled", true);
@@ -142,6 +151,7 @@ class CheckoutActivity : AppCompatActivity(), PaymentResultWithDataListener, Ext
 
         paymentBtn.visibility = View.GONE
         recyclerView.visibility = View.GONE
+        cancelBtn.visibility = View.GONE
         successBtn.visibility = View.VISIBLE
 
         cdbRef.addValueEventListener(object: ValueEventListener {
@@ -180,7 +190,7 @@ class CheckoutActivity : AppCompatActivity(), PaymentResultWithDataListener, Ext
         successBtn.setOnClickListener{
             val fragment = ViewPurchaseHistory()
             val bundle = Bundle()
-            bundle.putString("id",id)
+//            bundle.putString("id",id)
             fragment.arguments = bundle
 
             replaceFragment(fragment)
