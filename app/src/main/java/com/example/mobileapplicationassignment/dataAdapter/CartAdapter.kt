@@ -27,6 +27,7 @@ class CartAdapter(private val productList: List<Product>, private val listener: 
                 if (position != RecyclerView.NO_POSITION) {
                     listener.onButtonClick(position)
                 }
+
             }
         }
     }
