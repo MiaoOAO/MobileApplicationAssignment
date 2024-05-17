@@ -66,6 +66,7 @@ class MainActivity : AppCompatActivity() {
 
                             Toast.makeText(this@MainActivity, "Valid", Toast.LENGTH_LONG).show()
                             var intent = Intent(this@MainActivity,MainMenu::class.java)
+                            intent.putExtra("Fragment", "Home") // or any identifier for the fragment
                             intent.putExtra("Id", vUserId)
                             startActivity(intent)
 

@@ -36,7 +36,16 @@ class MainMenu : AppCompatActivity() {
 
 
         val id = intent.getStringExtra("Id").toString()
-        val fragment = HomepageFragment()
+
+        val fragmentId = intent.getStringExtra("Fragment").toString()
+
+        // Decide which fragment to display
+        val fragment = when (fragmentId) {
+            "ShoppingCart" -> ShoppingCartFragment()
+            else -> HomepageFragment()
+        }
+
+        // Display the selected fragment
         val bundle = Bundle()
         bundle.putString("id",id)
         fragment.arguments = bundle

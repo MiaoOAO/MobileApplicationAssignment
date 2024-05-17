@@ -1,5 +1,6 @@
 package com.example.mobileapplicationassignment
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -155,7 +156,6 @@ class CheckoutActivity : AppCompatActivity(), PaymentResultWithDataListener, Ext
         recyclerView.visibility = View.GONE
         cancelBtn.visibility = View.GONE
         successBtn.visibility = View.VISIBLE
-        pdbRef.child("")
         cdbRef.addValueEventListener(object: ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()) {
@@ -165,16 +165,15 @@ class CheckoutActivity : AppCompatActivity(), PaymentResultWithDataListener, Ext
                             for (cart in cartList) {
                                 if (cart.id == product.id) {
                                     cdbRef.child(cart.owner).child("Favourite").child(cart.id).child("status").setValue(false)
+                                    cdbRef.child(id).child("Purchase").child(cart.id).setValue(false)
                                     pdbRef.child(cart.id).removeValue()
                                 }
                             }
                         }
                         for (cart in cartList) {
                             if (cart.owner == personSnap.child("Id").getValue()) {
-                                cdbRef.child(cart.owner).child("Selling").child(cart.id)
-                                    .setValue(cart)
-                                cdbRef.child(cart.owner).child("Product").child(cart.id)
-                                    .child("status").setValue(false)
+                                cdbRef.child(cart.owner).child("Selling").child(cart.id).setValue(cart)
+                                cdbRef.child(cart.owner).child("Product").child(cart.id).child("status").setValue(false)
                             }
                         }
 
@@ -190,12 +189,10 @@ class CheckoutActivity : AppCompatActivity(), PaymentResultWithDataListener, Ext
     })
 
         successBtn.setOnClickListener{
-            val fragment = ViewPurchaseHistory()
-            val bundle = Bundle()
-//            bundle.putString("id",id)
-            fragment.arguments = bundle
-
-            replaceFragment(fragment)
+            var intent = Intent(this,MainMenu::class.java)
+            intent.putExtra("Fragment", "ShoppingCart") // or any identifier for the fragment
+            intent.putExtra("Id", id)
+            startActivity(intent)
         }
 
 
