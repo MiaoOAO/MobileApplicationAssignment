@@ -37,7 +37,7 @@ class EditFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
     private lateinit var dbRef : DatabaseReference
-    private lateinit var  galleryUri : Uri
+    private var galleryUri: Uri? = null
     private lateinit var storageRef : StorageReference
     private lateinit var mImg:ImageView
 
@@ -56,7 +56,7 @@ class EditFragment : Fragment() {
         var view = inflater.inflate(R.layout.fragment_edit, container, false)
         mImg= view.findViewById(R.id.mImgPhoto)
         var mId:TextView = view.findViewById(R.id.mEditId)
-        var mName:TextView = view.findViewById((R.id.mEditName))
+        var mName:TextView = view.findViewById(R.id.mEditName)
         var cPassword:TextView = view.findViewById(R.id.changePassword)
         var conPassword:TextView = view.findViewById(R.id.confirmPassword)
         var btnMod:Button = view.findViewById(R.id.btnModify)
@@ -85,9 +85,10 @@ class EditFragment : Fragment() {
         dbRef = FirebaseDatabase.getInstance().getReference("User")
         dbRef.addValueEventListener(object: ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                var imgP = snapshot.child(id).child("ProfileImage").getValue()
+                var imgP = snapshot.child(id).child("profileImage").getValue()
                 var img = imgP.toString()
-                var stuId = snapshot.child(id).child("Id").getValue()
+                var stuId = snapshot.child(id).child("id").getValue()
+                var stuName = snapshot.child(id).child("name").getValue()
                 var imgRef = FirebaseStorage.getInstance().getReferenceFromUrl(img)
                 val ONE_MEGABYTE: Long = 5120 * 5120
                 imgRef.getBytes(ONE_MEGABYTE)
@@ -100,7 +101,7 @@ class EditFragment : Fragment() {
                     }
 
                 mId.text = stuId.toString()
-                mName.text = id
+                mName.text = stuName.toString()
 
 
             }
@@ -115,29 +116,33 @@ class EditFragment : Fragment() {
             if( cP == conP && mName.text.toString().isNotEmpty()){
                 val imgId = UUID.randomUUID()
                 val imgRef = storageRef.child("image/${imgId}.png")
-                imgRef.putFile(galleryUri)
-                    .addOnSuccessListener { taskSnapshot ->
-                        // Get download URL
-                        imgRef.downloadUrl.addOnSuccessListener { uri ->
-                            dbRef.child(id).child("Password").setValue(cP)
-                            dbRef.child(id).child("Name").setValue(mName.text.toString())
-                            dbRef.child(id).child("ProfileImage").setValue(uri.toString())
-                                .addOnSuccessListener {
-                                    Toast.makeText(requireContext(), "edit successful", Toast.LENGTH_LONG).show()
-                                    val fragment = ProfileFragment()
-                                    val bundle = Bundle()
-                                    bundle.putString("id",id)
-                                    fragment.arguments = bundle
-                                    val transaction = activity?.supportFragmentManager?.beginTransaction()
-                                    transaction?.replace(R.id.fragmentContainerView, fragment)
-                                    transaction?.addToBackStack(null)
-                                    transaction?.commit()
-                                }
-                                .addOnFailureListener{
-                                    Toast.makeText(requireContext(), "Fail to edit profile", Toast.LENGTH_LONG).show()
-                                }
-
+                if(galleryUri != null){
+                    imgRef.putFile(galleryUri!!)
+                        .addOnSuccessListener { taskSnapshot ->
+                            // Get download URL
+                            imgRef.downloadUrl.addOnSuccessListener { uri ->
+                                dbRef.child(id).child("profileImage").setValue(uri.toString())
+                            }
                         }
+
+                }
+                if(cP.isNotEmpty()){
+                    dbRef.child(id).child("password").setValue(cP)
+                }
+                dbRef.child(id).child("name").setValue(mName.text.toString())
+                    .addOnSuccessListener {
+                        Toast.makeText(requireContext(), "edit successful", Toast.LENGTH_LONG).show()
+                        val fragment = ProfileFragment()
+                        val bundle = Bundle()
+                        bundle.putString("id",id)
+                        fragment.arguments = bundle
+                        val transaction = activity?.supportFragmentManager?.beginTransaction()
+                        transaction?.replace(R.id.fragmentContainerView, fragment)
+                        transaction?.addToBackStack(null)
+                        transaction?.commit()
+                    }
+                    .addOnFailureListener{
+                        Toast.makeText(requireContext(), "Fail to edit profile", Toast.LENGTH_LONG).show()
                     }
 
             }else{

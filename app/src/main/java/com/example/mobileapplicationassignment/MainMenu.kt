@@ -54,7 +54,7 @@ class MainMenu : AppCompatActivity() {
 
 
         myToolbar = findViewById(R.id.myToolbar)
-        myToolbar.title = ""
+        myToolbar.title = "Campus Marketplace"
         setSupportActionBar(myToolbar)
 
         drawerLayout = findViewById(R.id.drawer_layout)

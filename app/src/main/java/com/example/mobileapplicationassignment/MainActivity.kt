@@ -36,12 +36,6 @@ class MainActivity : AppCompatActivity() {
         var btnR: ImageButton = findViewById(R.id.registerBtn)
         cdbRef = FirebaseDatabase.getInstance().getReference("Cart")
         cdbRef.removeValue()
-        fRef = FirebaseDatabase.getInstance().getReference("User")
-        fRef.child("2204107").child("password").setValue("1234")
-        fRef.child("2204107").child("name").setValue("Wong Cheng Yi")
-        fRef.child("2204107").child("profileImage").setValue("gs://campus-marketplace-8cc1c.appspot.com/image/Yashiro.png")
-        fRef.child("2204107").child("id").setValue("2204107")
-        var product = Product("1","Gaming Chair",true,"condition 80% new, bought 2 months ago, TTracing brand",120,"gs://campus-marketplace-8cc1c.appspot.com/Product1.png","2204107")
         dbRef = FirebaseDatabase.getInstance().getReference("User")
 
         btnR.setOnClickListener{
