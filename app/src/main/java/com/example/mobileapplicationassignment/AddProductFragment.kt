@@ -74,7 +74,7 @@ class AddProductFragment : Fragment() {
 
 
         btnMod.setOnClickListener(){
-            if( aPrice.text.toString().isNotEmpty() && aDesc.text.toString().isNotEmpty() && aName.text.toString().isNotEmpty()){
+            if( aPrice.text.toString().isNotEmpty() && aDesc.text.toString().isNotEmpty() && aName.text.toString().isNotEmpty() && galleryUri != null){
                 val imgId = UUID.randomUUID()
                 val imgRef = storageRef.child("image/${imgId}.png")
                 imgRef.putFile(galleryUri)
