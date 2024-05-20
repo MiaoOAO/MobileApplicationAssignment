@@ -31,6 +31,7 @@ class CheckoutActivity : AppCompatActivity(), PaymentResultWithDataListener, Ext
     private lateinit var dbRef : DatabaseReference
     private lateinit var cdbRef : DatabaseReference
     private lateinit var pdbRef:  DatabaseReference
+    private lateinit var newpdbRef : DatabaseReference
     private var totalPrice = 0.0
     private lateinit var id:String
     lateinit var paymentBtn: Button
@@ -82,8 +83,8 @@ class CheckoutActivity : AppCompatActivity(), PaymentResultWithDataListener, Ext
 
         dbRef = FirebaseDatabase.getInstance().getReference("User").child(id)
         cdbRef = FirebaseDatabase.getInstance().getReference("User")
-        pdbRef = FirebaseDatabase.getInstance().getReference("Product")
 
+        newpdbRef = FirebaseDatabase.getInstance().getReference("Cart")
         fetchData(recyclerView, totalAmount)
 
         paymentBtn.setOnClickListener{
@@ -178,7 +179,7 @@ class CheckoutActivity : AppCompatActivity(), PaymentResultWithDataListener, Ext
         successMsg.visibility = View.VISIBLE
 
         orderPayId.text = "ORDER ID : $p0"
-
+        pdbRef = FirebaseDatabase.getInstance().getReference("Product")
         cdbRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()) {
@@ -192,9 +193,8 @@ class CheckoutActivity : AppCompatActivity(), PaymentResultWithDataListener, Ext
                                     for (cart in cartList) {
                                         if (cart.id == product.id) {
                                             cdbRef.child(personId).child("Favourite").child(cart.id).child("status").setValue(false)
-
-                                            pdbRef.child(cart.id).removeValue()
                                         }
+                                        pdbRef.child(cart.id).removeValue()
                                     }
                                 }
                             }
@@ -211,6 +211,7 @@ class CheckoutActivity : AppCompatActivity(), PaymentResultWithDataListener, Ext
                         }
                     }
                 }
+
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -219,6 +220,7 @@ class CheckoutActivity : AppCompatActivity(), PaymentResultWithDataListener, Ext
         })
 
         successBtn.setOnClickListener{
+            newpdbRef.removeValue()
             var intent = Intent(this,MainMenu::class.java)
             intent.putExtra("Fragment", "ShoppingCart") // or any identifier for the fragment
             intent.putExtra("Id", id)

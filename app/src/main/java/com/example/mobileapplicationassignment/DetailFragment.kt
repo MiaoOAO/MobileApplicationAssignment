@@ -80,7 +80,6 @@ class DetailFragment : Fragment() {
         dbRef = FirebaseDatabase.getInstance().getReference("User").child(userId)
         pdbRef.addValueEventListener(object: ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                productList.clear()
                 if(snapshot.exists()) {
                     product = snapshot.child(productId).getValue(Product::class.java)!!
                     var imgRef = FirebaseStorage.getInstance().getReferenceFromUrl(product.image)
