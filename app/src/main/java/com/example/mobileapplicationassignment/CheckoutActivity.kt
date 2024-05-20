@@ -194,7 +194,6 @@ class CheckoutActivity : AppCompatActivity(), PaymentResultWithDataListener, Ext
                                         if (cart.id == product.id) {
                                             cdbRef.child(personId).child("Favourite").child(cart.id).child("status").setValue(false)
                                         }
-                                        pdbRef.child(cart.id).removeValue()
                                     }
                                 }
                             }
@@ -206,6 +205,7 @@ class CheckoutActivity : AppCompatActivity(), PaymentResultWithDataListener, Ext
                                     cdbRef.child(cart.owner).child("Product").child(cart.id).child("status").setValue(false)
 
                                 }
+                                pdbRef.child(cart.id).removeValue()
                                 cdbRef.child(id).child("Purchase").child(cart.id).setValue(cart)
                             }
                         }
