@@ -206,7 +206,7 @@ class CheckoutActivity : AppCompatActivity(), PaymentResultWithDataListener, Ext
                                     cdbRef.child(cart.owner).child("Product").child(cart.id).child("status").setValue(false)
 
                                 }
-                                cdbRef.child(personId).child("Purchase").child(cart.id).setValue(cart)
+                                cdbRef.child(id).child("Purchase").child(cart.id).setValue(cart)
                             }
                         }
                     }
